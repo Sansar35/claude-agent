@@ -1,0 +1,77 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk *)",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(node *)",
+      "Bash(python *)",
+      "Bash(cargo *)",
+      "Bash(*)",
+      "Read(**)",
+      "Edit(**)",
+      "Write(**)",
+      "Bash(claude mcp add eslint*)",
+      "Bash(claude mcp add knip*)",
+      "Bash(claude mcp add vitest*)",
+      "Bash(claude mcp add lighthouse*)",
+      "Bash(claude mcp add chrome-devtools*)",
+      "Bash(claude mcp add sentry*)",
+      "Bash(claude mcp add semgrep*)",
+      "Bash(claude mcp add codacy*)",
+      "Bash(claude mcp add postgres*)",
+      "Bash(claude mcp add postman*)",
+      "Bash(claude mcp add trivy*)",
+      "Bash(claude mcp add snyk*)",
+      "Bash(claude mcp add stryker*)",
+      "Bash(claude mcp remove *)",
+      "Bash(claude /plugin *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "rtk hook claude"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "ccstatusline"
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "artifacts-builder@awesome-claude-plugins": true,
+    "superpowers@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "mcp-builder@awesome-claude-plugins": true,
+    "context7@claude-plugins-official": true,
+    "theme-factory@awesome-claude-plugins": false,
+    "canvas-design@awesome-claude-plugins": false,
+    "ship@awesome-claude-plugins": false,
+    "firecrawl@claude-plugins-official": false,
+    "skill-creator@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "awesome-claude-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "ComposioHQ/awesome-claude-plugins"
+      }
+    },
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
+    }
+  },
+  "effortLevel": "max"
+}

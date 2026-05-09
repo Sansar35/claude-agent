@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk git *)",
+      "WebSearch",
+      "WebFetch(domain:docs.openwebui.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.digitalbrainbase.com)",
+      "WebFetch(domain:deepwiki.com)"
+    ]
+  }
+}

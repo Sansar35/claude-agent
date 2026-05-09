@@ -3,46 +3,11 @@
 > Bu dosya `claude-agent` paketinin opsiyonel CLAUDE.md sablonudur.
 > Kendi `~/.claude/CLAUDE.md` veya proje `CLAUDE.md` dosyaniza isteyen kisimlari ekleyin.
 
-## Multi-AI Otomatik Tetikleme (opsiyonel)
+## Iletisim (opsiyonel)
 
-Kullanici yeni bir yazilim/proje istegi yaptiginda, otomatik olarak `team.py` calistir:
-
-### Tetiklenir (default — ekip calisir)
-- "FastAPI ile login API yaz"
-- "Bana bir dashboard yap"
-- "Yeni feature / yeni dosya / yeni script"
-- 50+ satir refactor
-- Coklu adim proje
-- Belirsiz / kararsiz durum (guvenli secim)
-
-### Tetiklenmez (tek-AI yeterli)
-- Bilgi sorusu ("X nedir?", "kimsin sen?")
-- Tek satir cerrahi: "X'i Y yap"
-- 5 satir alti edit
-- Tarama / okuma
-- Setup / kurulum
-
-### Davranis
-Ekip-isi karari verildiyse Bash:
-```cmd
-chcp 65001 && python "%USERPROFILE%\claude-agent\team\team.py" "<istek>"
-```
-
-## Kimlik Sorulari (opsiyonel)
-
-"kimsin sen", "kim aktif", "ekip kim" gibi sorularda Claude tum aktif AI ekibini listeler. Ornek cevap formati:
-
-```
-Ben Claude Opus 4.7 + Multi-AI ekibi.
-
-AKTIF EKIP (.env'e gore):
-1. Claude Opus 4.7   [LIDER]    — abonelik
-2. Claude Sonnet 4.6 [Mimari]   — abonelik
-3. Claude Haiku 4.5  [Hizli]    — abonelik
-4. Gemini 2.5 Pro    [Reviewer] — GEMINI_API_KEY
-5. Mistral Large     [Doc]      — MISTRAL_API_KEY
-... (key girilen tum provider'lar)
-```
+- Direkt, kisa, sonuc odakli yanit
+- Numarali raporlar
+- Her teslim sonrasi kisa ozet: ne degistirildi, hangi dosyalar
 
 ## Tarayici Teyit Protokolu (opsiyonel)
 

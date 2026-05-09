@@ -53,9 +53,9 @@ echo
 echo "  Dosyalar $DST altina yerlestirildi."
 echo
 echo "  Sonraki adimlar:"
-echo "  1) cd team && pip install -r requirements.txt"
-echo "  2) cp .env.example .env && nano .env  (key'leri yaz)"
-echo "  3) python team.py 'Test projesi yaz'"
+echo "  1) Claude Code CLI'yi kur: https://docs.claude.com/claude-code"
+echo "  2) $DST icindeki ornek dosyalari (CLAUDE.md.example, settings.example.json) duzenle"
+echo "  3) Claude Code'u baslat ve agent/skill/command sistemini kullan"
 echo
 echo "  Detay: README.md"
 echo

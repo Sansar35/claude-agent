@@ -38,3 +38,22 @@ logs/
 *.backup
 *.old
 *.orig
+
+# Large external clones / community marketplaces (>100MB or vendored)
+codeql-home/
+plugins/
+skills/
+awesome-claude-skills/
+
+# Empty / local-only working dirs
+backups/
+repos/
+screenshots/
+
+# Activity logs (privacy)
+learnings/*.json
+
+# Local CMD / shell dumps
+*.txt.bak
+"Yeni Metin Belgesi.txt"
+

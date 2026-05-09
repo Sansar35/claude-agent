@@ -1,6 +1,6 @@
 # Diger IDE / AI Assistant'lar Icin Kurulum
 
-`claude-agent` Claude Code icin native uyumludur. Diger AI code asistanlari icin asagidaki adimlar:
+`claude-agent` config bundle'i Claude Code icin native uyumludur. Diger AI code asistanlari icin asagidaki adimlar.
 
 ## 🚀 Hangi Ortamlarda Calisir
 
@@ -11,50 +11,46 @@
 | **Windsurf** (Codeium) | ⚠️ Kismen | `.windsurfrules` formatina cevirin |
 | **Antigravity** (Google) | ✅ TAM | Claude Code uzantisi varsa direkt calisir |
 | **VS Code Claude extension** | ✅ TAM | Claude Code icin yapilmis |
-| **GitHub Copilot Chat** | ❌ | Sadece `team/` Python script'leri kullanin |
-| **Cline** (VS Code extension) | ❌ | Sadece `team/` Python script'leri kullanin |
-| **Aider** (CLI) | ❌ | Sadece `team/` Python script'leri kullanin |
-| **Continue.dev** | ❌ | Sadece `team/` Python script'leri kullanin |
-
-## 📦 Multi-LLM Orkestrator (`team/`) — Her Yerde Calisir
-
-`team/` icindeki Python scriptleri **AI assistant'tan bagimsiz**. Hangi IDE / terminal kullanirsaniz kullanin:
-
-```bash
-python team/team.py "FastAPI login API yaz"
-python team/demo.py
-python team/verify.py
-```
+| **GitHub Copilot Chat** | ❌ | Native destek yok |
+| **Cline** (VS Code extension) | ❌ | Native destek yok |
+| **Aider** (CLI) | ❌ | Native destek yok |
+| **Continue.dev** | ❌ | Native destek yok |
 
 ## 1️⃣ Claude Code (Anthropic resmi) — TAM UYUM
 
 ```cmd
 install.bat
 ```
+
 Veya manuel:
+
 ```cmd
 xcopy /E /I /Y claude-config\skills %USERPROFILE%\.claude\skills
 xcopy /E /I /Y claude-config\agents %USERPROFILE%\.claude\agents
 xcopy /E /I /Y claude-config\commands %USERPROFILE%\.claude\commands
+xcopy /E /I /Y claude-config\hooks %USERPROFILE%\.claude\hooks
+xcopy /E /I /Y claude-config\hooks-templates %USERPROFILE%\.claude\hooks-templates
+xcopy /E /I /Y claude-config\mcps-templates %USERPROFILE%\.claude\mcps-templates
+xcopy /E /I /Y claude-config\settings-templates %USERPROFILE%\.claude\settings-templates
 ```
 
-Kullanim: Claude Code'u yeniden baslat, chat'e `/team "<istek>"` yaz.
+Kullanim: Claude Code'u yeniden baslat, chat'e `/` yaz, slash command'lari gor.
 
 ## 2️⃣ Cursor (cursor.sh)
 
-Cursor `.cursor/rules/` klasoru veya `.cursorrules` dosyasi kullaniyor. Manuel uyarlama:
+Cursor `.cursor/rules/` klasoru veya `.cursorrules` dosyasi kullaniyor. Agent prompt'larini Cursor rule formatina ceviripayik kullanabilirsin:
 
 ```bash
-# 1) Kendi projenizde .cursor/rules/ olusturun
+# 1) Kendi projende .cursor/rules/ olustur
 mkdir -p .cursor/rules
 
-# 2) team-runner agent'inin sistem prompt'unu kopyalayin
-cp claude-config/agents/team-runner.md .cursor/rules/team-runner.mdc
+# 2) Istedigin agent'i kopyala (.md → .mdc)
+cp claude-config/agents/code-reviewer.md .cursor/rules/code-reviewer.mdc
 ```
 
-Cursor `.mdc` dosyalari "rules" olarak okur.
+Cursor `.mdc` dosyalarini "rules" olarak okur.
 
-Slash command icin Cursor'da native destek YOK (Mart 2026 itibariyla). Bunun yerine: chat'e dogal dilde "team-runner agent'iyla calistir, FastAPI login API yaz" yazin.
+Slash command icin Cursor'da native destek SINIRLI. Onun yerine: chat'e dogal dilde "code-reviewer prompt'uyla calis, su PR'i gozden gecir" yaz.
 
 ## 3️⃣ Windsurf (Codeium)
 
@@ -62,44 +58,36 @@ Windsurf `.windsurfrules` dosyasi kullaniyor:
 
 ```bash
 # Proje root'una kopyala
-cat claude-config/agents/team-runner.md > .windsurfrules
+cat claude-config/CLAUDE.md.example > .windsurfrules
 echo "" >> .windsurfrules
-cat claude-config/CLAUDE.md.example >> .windsurfrules
+cat claude-config/agents/code-reviewer.md >> .windsurfrules
 ```
 
 ## 4️⃣ Antigravity (Google AI IDE)
 
-Antigravity Claude Code extension destekliyor. `install.bat` ile kurulum yapin, Antigravity'yi yeniden baslatin, "Open Agent Manager"'da `team-runner` gorulmeli.
+Antigravity Claude Code extension destekliyor. `install.bat` ile kurulum yap, Antigravity'yi yeniden baslat, agent'lar otomatik gozukur.
 
 Eger Antigravity kendi Gemini agent'ini kullaniyorsa:
-- Claude entegrasyonunu Antigravity Settings'tan acin
-- Veya `team/team.py`'i terminal'den calistirin (IDE-bagimsiz)
 
-## 5️⃣ Generic — Sadece `team/` Python Scriptleri
+- Claude entegrasyonunu Antigravity Settings'tan ac
+- Veya kendi prompt'unda `claude-config/CLAUDE.md.example` icerigini reference olarak ekle
 
-Tek ihtiyac: Python 3.10+ ve `pip install -r team/requirements.txt`. IDE konusu degil.
+## 5️⃣ Aider — `.aider.conf.yml` ile
 
-Hangi IDE kullanirsaniz kullanin, terminal acip:
-```bash
-python team/team.py "proje aciklamasi"
-```
+Aider config'i model rotasini destekler:
 
-Cikti dogrudan terminal'de gelir. IDE bagimsizdir.
-
-## 6️⃣ Aider — `.aider.conf.yml` ile
-
-Aider config'inde model rotasi destekliyor:
 ```yaml
 # .aider.conf.yml
 model: claude-opus-4-7
 weak-model: claude-haiku-4-5
 ```
 
-Aider tek model kullanir — multi-AI orkestrasyon icin `team/team.py`'yi script olarak calistirin, ciktiyi Aider'a verin.
+Aider tek model kullanir — multi-agent orkestrasyon native yok. Ancak Claude Code prompt'larini elle Aider'a verebilirsin.
 
-## 7️⃣ Continue.dev — `config.json` ile
+## 6️⃣ Continue.dev — `config.json` ile
 
 Continue.dev `~/.continue/config.json` kullaniyor:
+
 ```json
 {
   "models": [
@@ -109,44 +97,17 @@ Continue.dev `~/.continue/config.json` kullaniyor:
 }
 ```
 
-Multi-AI orkestrasyon native YOK — `team/` scriptlerini ayri kullan.
-
-## 🔧 API ile Kullanim (IDE'siz)
-
-Hicbir IDE olmadan da calisir:
-
-```python
-# Python ile direkt
-from team.team import develop
-import asyncio
-
-result = asyncio.run(develop("FastAPI login API yaz"))
-print(result)
-```
-
-Veya HTTP API olarak yaz (FastAPI/Flask wrapper):
-```python
-# api.py (kendiniz yazabilirsiniz)
-from fastapi import FastAPI
-from team.team import develop
-
-app = FastAPI()
-
-@app.post("/team")
-async def team_endpoint(brief: str):
-    return await develop(brief)
-```
+`claude-config/CLAUDE.md.example` icerigini Continue'nun system prompt'una ekleyebilirsin.
 
 ## 💡 Onerilen Senaryolar
 
 | Senaryo | Onerilen Kurulum |
 |---|---|
 | Claude Code kullaniyorum | `install.bat` (TAM uyum) |
-| Cursor kullaniyorum | `team/` scriptleri + `.cursor/rules/team-runner.mdc` |
+| Cursor kullaniyorum | `.cursor/rules/` altina manuel kopya |
 | Antigravity kullaniyorum | `install.bat` + Antigravity restart |
-| Hicbiri yok / sade Python | Sadece `pip install` + `python team/team.py` |
-| API endpoint yapacagim | `team.develop()` fonksiyonunu FastAPI ile sarin |
+| VS Code + Claude extension | `install.bat` (TAM uyum) |
 
 ## ❓ Sorularin Mi Var?
 
-[GitHub Issues](https://github.com/<your-username>/claude-agent/issues) acin, topluluk yardim eder.
+[GitHub Issues](https://github.com/Sansar35/claude-agent/issues) acin.
