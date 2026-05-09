@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Claude Agent Key Merkezi</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
+  body{background:#0a0e14;color:#c9d1d9;padding:28px;line-height:1.5;min-height:100vh}
+  h1{color:#00ff88;font-size:30px;margin-bottom:6px;letter-spacing:-.5px}
+  .sub{color:#7d8590;margin-bottom:28px;font-size:14px}
+  h2{color:#58a6ff;margin:28px 0 10px;font-size:17px;border-bottom:1px solid #21262d;padding-bottom:6px;letter-spacing:.3px}
+
+  /* CMD kopyala bloku */
+  .cmd-box{background:#161b22;border:1px solid #00ff8855;border-radius:10px;padding:18px;margin-bottom:24px;box-shadow:0 0 20px #00ff8811}
+  .cmd-title{color:#00ff88;font-weight:700;font-size:13px;letter-spacing:1px;margin-bottom:10px;text-transform:uppercase}
+  .cmd-row{display:flex;gap:8px;align-items:stretch}
+  .cmd-code{flex:1;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px 14px;font-family:Consolas,'Courier New',monospace;font-size:13px;color:#f0f6fc;overflow-x:auto;white-space:nowrap}
+  .copy-btn{background:#00ff88;color:#0a0e14;border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s;letter-spacing:.5px}
+  .copy-btn:hover{background:#00cc6a;transform:translateY(-1px)}
+  .copy-btn:active{transform:translateY(0)}
+  .copy-btn.ok{background:#3fb950}
+  .cmd-desc{color:#8b949e;font-size:12px;margin-top:8px}
+
+  /* Anthropic uyari kutusu */
+  .anth{background:#3fb95011;border-left:3px solid #3fb950;border-radius:6px;padding:12px 16px;margin:20px 0;color:#7ee787;font-size:13px}
+  .anth strong{color:#3fb950}
+
+  /* Provider kart grid */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:13px;display:flex;flex-direction:column;gap:5px;transition:all .15s ease}
+  .card:hover{border-color:#00ff88;background:#1c2128;transform:translateY(-2px);box-shadow:0 4px 12px #00ff8822}
+  .name{color:#f0f6fc;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+  .name.star::before{content:"★ ";color:#ffd700}
+  .env-key{color:#7d8590;font-family:Consolas,monospace;font-size:10px;font-weight:400}
+  .desc{color:#8b949e;font-size:11.5px;flex:1;margin:2px 0}
+  .badge{display:inline-block;background:#1f6feb22;color:#58a6ff;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;width:fit-content}
+  .badge.free{background:#2ea04322;color:#3fb950}
+  .badge.cheap{background:#9c27b022;color:#bc8cff}
+  .badge.premium{background:#fd7e1422;color:#ffa657}
+  a.btn{display:block;text-align:center;background:#00ff88;color:#0a0e14;padding:7px 12px;border-radius:5px;text-decoration:none;font-weight:700;font-size:12px;margin-top:6px;transition:background .15s;letter-spacing:.5px}
+  a.btn:hover{background:#00cc6a}
+  code{background:#21262d;padding:2px 6px;border-radius:4px;font-size:12.5px;color:#f0883e;font-family:Consolas,monospace}
+
+  .footer{margin-top:36px;padding-top:18px;border-top:1px solid #21262d;color:#7d8590;font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+
+<h1>🤖 KEY MERKEZI</h1>
+<div class="sub">CMD'yi kopyala → notepad'de .env'i ac → asagidaki kartlardan key al → yapistir → kaydet.</div>
+
+<!-- ============ CMD KOPYALAR BLOK 1 ============ -->
+<div class="cmd-box">
+  <div class="cmd-title">📋 1) .env DOSYASINI AC (KOPYALA → CMD'YE YAPISTIR)</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd1">notepad C:\Users\emre\.claude\repos\team\.env</div>
+    <button class="copy-btn" onclick="copyIt('cmd1', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Bu komutu CMD'ye yapistirip Enter'a bas — Notepad acilir, key'leri ilgili satirlara yapistir, Ctrl+S ile kaydet.</div>
+</div>
+
+<div class="cmd-box">
+  <div class="cmd-title">📋 2) AKTIF KEY DURUMUNU GOR</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd2">cd C:\Users\emre\.claude\repos\team &amp;&amp; python test.py</div>
+    <button class="copy-btn" onclick="copyIt('cmd2', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Hangi key girildi, kac worker aktif olduğunu gosterir.</div>
+</div>
+
+<div class="cmd-box">
+  <div class="cmd-title">📋 3) PARALELLIK DEMOSU (HEPSI BIR ANDA CALISIYOR MU GOR)</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd3">cd C:\Users\emre\.claude\repos\team &amp;&amp; python demo.py</div>
+    <button class="copy-btn" onclick="copyIt('cmd3', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Her ajan kisa soruyu cevaplar, BASLAMA/BITME zamanlarini ASCII bar grafiginde gosterir. Paralelligi gozle gorursun.</div>
+</div>
+
+<div class="cmd-box">
+  <div class="cmd-title">📋 4) VERIFY — KEY'LERIN GERCEK ISTEK ATTIGINI KANITLA</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd4">chcp 65001 &amp;&amp; cd /d C:\Users\emre\.claude\repos\team &amp;&amp; python verify.py</div>
+    <button class="copy-btn" onclick="copyIt('cmd4', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Her aktif ajana 1 saniyelik 'pong' istegi atar. Hangi endpoint, latency, token sayisi gosterir. Latency &gt; 0 + token gelirse = istek GERCEKTEN gitti, ajan GERCEKTEN aktif.</div>
+</div>
+
+<div class="cmd-box">
+  <div class="cmd-title">📋 5) TUM EKIBI CALISTIR (PARALEL URETIM)</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd5">chcp 65001 &amp;&amp; cd /d C:\Users\emre\.claude\repos\team &amp;&amp; python team.py "FastAPI ile JWT login API yaz"</div>
+    <button class="copy-btn" onclick="copyIt('cmd5', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Lider Opus plan yapar → tum AI'lar paralel kod yazar → Lider sentezler.</div>
+</div>
+
+<div class="anth">
+  ✅ <strong>Anthropic / Claude key girme</strong> — Claude Max aboneligin var, sistem <code>claude-agent-sdk</code> uzerinden Opus + Sonnet + Haiku'yu otomatik kullanir.
+</div>
+
+<!-- ============ KARTLAR ============ -->
+<h2>★ Ana Tavsiye — 1 Key = 7 Model</h2>
+<div class="grid">
+  <div class="card">
+    <div class="name star">OpenRouter <span class="env-key">OPENROUTER_API_KEY</span></div>
+    <div class="desc">Tek key ile GPT-5, Gemini 2.5, DeepSeek, Llama 3.3, Qwen, Mistral, Grok 3 — hepsi acilir. En pratik.</div>
+    <span class="badge">300+ MODEL</span>
+    <a class="btn" href="https://openrouter.ai/keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+</div>
+
+<h2>🟢 Bedava Katmani Olanlar</h2>
+<div class="grid">
+  <div class="card">
+    <div class="name">Groq <span class="env-key">GROQ_API_KEY</span></div>
+    <div class="desc">Llama 3.3 saniyede 800+ token. Cok hizli. Genis bedava katman.</div>
+    <span class="badge free">BEDAVA</span>
+    <a class="btn" href="https://console.groq.com/keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Google AI Studio <span class="env-key">GEMINI_API_KEY</span></div>
+    <div class="desc">Gemini 2.5 Pro + Flash. 1500 istek/gun bedava. Multimodal (resim/video).</div>
+    <span class="badge free">1500/GUN</span>
+    <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Cerebras <span class="env-key">CEREBRAS_API_KEY</span></div>
+    <div class="desc">Llama 3.3 saniyede 2000+ token. Dunyanin en hizli inference'i.</div>
+    <span class="badge free">ULTRA HIZLI</span>
+    <a class="btn" href="https://cloud.cerebras.ai/platform" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Mistral AI <span class="env-key">MISTRAL_API_KEY</span></div>
+    <div class="desc">Mistral Large + Codestral. La Plateforme'da deneme krediler.</div>
+    <span class="badge free">DENEME</span>
+    <a class="btn" href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">HuggingFace <span class="env-key">HUGGINGFACE_API_KEY</span></div>
+    <div class="desc">Inference API ile Llama, Qwen, Mistral. Acik kaynak hub.</div>
+    <span class="badge free">INFERENCE API</span>
+    <a class="btn" href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">Token Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">NVIDIA NIM <span class="env-key">NVIDIA_API_KEY</span></div>
+    <div class="desc">Nemotron 70B + Llama. Aylik 1000 bedava cagri.</div>
+    <span class="badge free">1000/AY</span>
+    <a class="btn" href="https://build.nvidia.com/explore/discover" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Together AI <span class="env-key">TOGETHER_API_KEY</span></div>
+    <div class="desc">Llama 3.3 Turbo + 100+ acik model. $1 baslangic kredi.</div>
+    <span class="badge free">$1 KREDI</span>
+    <a class="btn" href="https://api.together.ai/settings/api-keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+</div>
+
+<h2>🟣 Ucuz / Kaliteli</h2>
+<div class="grid">
+  <div class="card">
+    <div class="name">DeepSeek <span class="env-key">DEEPSEEK_API_KEY</span></div>
+    <div class="desc">DeepSeek V3.2 / R2. Kod kalitesi yuksek, fiyat dusuk. Reasoning icin ideal.</div>
+    <span class="badge cheap">UCUZ</span>
+    <a class="btn" href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Fireworks AI <span class="env-key">FIREWORKS_API_KEY</span></div>
+    <div class="desc">Llama 3.3 70B production-grade inference. Hizli + ucuz.</div>
+    <span class="badge cheap">PRODUCTION</span>
+    <a class="btn" href="https://fireworks.ai/api-keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">DeepInfra <span class="env-key">DEEPINFRA_API_KEY</span></div>
+    <div class="desc">Tum acik kaynak modeller (Llama, Mistral, DeepSeek, Qwen). Pay-per-use.</div>
+    <span class="badge cheap">OPEN SOURCE</span>
+    <a class="btn" href="https://deepinfra.com/dash/api_keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Cohere <span class="env-key">COHERE_API_KEY</span></div>
+    <div class="desc">Command R+ — RAG / agentic tooling icin optimize. Trial katman var.</div>
+    <span class="badge cheap">RAG</span>
+    <a class="btn" href="https://dashboard.cohere.com/api-keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Perplexity <span class="env-key">PERPLEXITY_API_KEY</span></div>
+    <div class="desc">Sonar Pro — canli web bilgisiyle cevap. Arastirma icin guzel.</div>
+    <span class="badge cheap">WEB</span>
+    <a class="btn" href="https://www.perplexity.ai/account/api/keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">Hyperbolic <span class="env-key">HYPERBOLIC_API_KEY</span></div>
+    <div class="desc">Llama 3.1 70B + FLUX (gorsel). Decentralized GPU.</div>
+    <span class="badge cheap">LLAMA+FLUX</span>
+    <a class="btn" href="https://app.hyperbolic.xyz/settings" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">SambaNova <span class="env-key">SAMBANOVA_API_KEY</span></div>
+    <div class="desc">Llama 3.3 70B saniyede 500+ token. RDU mimarisi.</div>
+    <span class="badge cheap">HIZLI LLAMA</span>
+    <a class="btn" href="https://cloud.sambanova.ai/apis" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+</div>
+
+<h2>🟠 Premium</h2>
+<div class="grid">
+  <div class="card">
+    <div class="name">OpenAI <span class="env-key">OPENAI_API_KEY</span></div>
+    <div class="desc">GPT-5 / o3 direkt. En guclu kapali kaynak modeller.</div>
+    <span class="badge premium">GPT-5</span>
+    <a class="btn" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+  <div class="card">
+    <div class="name">xAI <span class="env-key">XAI_API_KEY</span></div>
+    <div class="desc">Grok 3 / Grok 3 Mini. X.com gercek-zamanli verisiyle entegre.</div>
+    <span class="badge premium">GROK 3</span>
+    <a class="btn" href="https://console.x.ai" target="_blank" rel="noopener">Key Al →</a>
+  </div>
+</div>
+
+<div class="footer">
+  Dosya: <code>C:\Users\emre\.claude\key.html</code> — cift tikla, tarayicida acilir.<br>
+  Sistem: <code>C:\Users\emre\.claude\repos\team\</code>
+</div>
+
+<script>
+function copyIt(id, btn){
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const original = btn.innerText;
+    btn.innerText = "✓ KOPYALANDI";
+    btn.classList.add("ok");
+    setTimeout(()=>{
+      btn.innerText = original;
+      btn.classList.remove("ok");
+    }, 1500);
+  }).catch(err=>{
+    // Fallback
+    const range = document.createRange();
+    range.selectNode(document.getElementById(id));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    btn.innerText = "✓ KOPYALANDI";
+    setTimeout(()=>btn.innerText="KOPYALA", 1500);
+  });
+}
+</script>
+
+</body>
+</html>

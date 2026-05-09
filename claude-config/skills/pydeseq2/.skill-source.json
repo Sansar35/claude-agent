@@ -1,0 +1,1 @@
+{"sourceFolder":"pydeseq2","repoSha":"70924ddca910284ececaa91fe2c32c8f8c1dabd2","installedAt":"2026-05-08T21:45:47","description":"Differential gene expression analysis (Python DESeq2). Identify DE genes from bulk RNA-seq counts, Wald tests, FDR correction, volcano/MA plots, for RNA-seq analysis.","skillName":"pydeseq2","origin":"https://github.com/davila7/claude-code-templates"}

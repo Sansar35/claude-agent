@@ -1,0 +1,29 @@
+{
+  "_comment": "Claude Code settings.json ornek sablonu. ~/.claude/settings.json veya proje .claude/settings.json yapabilirsiniz.",
+
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Bash(git status)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(ls *)",
+      "Bash(cat *)",
+      "Bash(echo *)",
+      "Bash(chcp 65001*)"
+    ],
+    "deny": []
+  },
+
+  "_hooks_comment": "Otomatik davranislar icin hooks. Ornek: Stop sonrasi bilgi mesaji.",
+
+  "hooks": {
+    "Stop": []
+  },
+
+  "_env_comment": "Ortam degiskenleri (opsiyonel)",
+  "env": {
+    "PYTHONIOENCODING": "utf-8"
+  }
+}

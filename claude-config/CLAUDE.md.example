@@ -1,0 +1,74 @@
+# CLAUDE.md — Genel Baslangic Sablonu
+
+> Bu dosya `claude-agent` paketinin opsiyonel CLAUDE.md sablonudur.
+> Kendi `~/.claude/CLAUDE.md` veya proje `CLAUDE.md` dosyaniza isteyen kisimlari ekleyin.
+
+## Multi-AI Otomatik Tetikleme (opsiyonel)
+
+Kullanici yeni bir yazilim/proje istegi yaptiginda, otomatik olarak `team.py` calistir:
+
+### Tetiklenir (default — ekip calisir)
+- "FastAPI ile login API yaz"
+- "Bana bir dashboard yap"
+- "Yeni feature / yeni dosya / yeni script"
+- 50+ satir refactor
+- Coklu adim proje
+- Belirsiz / kararsiz durum (guvenli secim)
+
+### Tetiklenmez (tek-AI yeterli)
+- Bilgi sorusu ("X nedir?", "kimsin sen?")
+- Tek satir cerrahi: "X'i Y yap"
+- 5 satir alti edit
+- Tarama / okuma
+- Setup / kurulum
+
+### Davranis
+Ekip-isi karari verildiyse Bash:
+```cmd
+chcp 65001 && python "%USERPROFILE%\claude-agent\team\team.py" "<istek>"
+```
+
+## Kimlik Sorulari (opsiyonel)
+
+"kimsin sen", "kim aktif", "ekip kim" gibi sorularda Claude tum aktif AI ekibini listeler. Ornek cevap formati:
+
+```
+Ben Claude Opus 4.7 + Multi-AI ekibi.
+
+AKTIF EKIP (.env'e gore):
+1. Claude Opus 4.7   [LIDER]    — abonelik
+2. Claude Sonnet 4.6 [Mimari]   — abonelik
+3. Claude Haiku 4.5  [Hizli]    — abonelik
+4. Gemini 2.5 Pro    [Reviewer] — GEMINI_API_KEY
+5. Mistral Large     [Doc]      — MISTRAL_API_KEY
+... (key girilen tum provider'lar)
+```
+
+## Tarayici Teyit Protokolu (opsiyonel)
+
+Yazilim sonrasi (HTML/JS/web ise):
+1. `preview_start` ile dev server / dosya ac
+2. `preview_screenshot` ile gozle gor
+3. `preview_console_logs` ile hata var mi tara
+4. `preview_click` / `preview_fill` ile etkilesimleri test et
+5. Sorun varsa onar → tekrar test
+6. Calistigi teyit edilince teslim et
+
+## Onay Sormadan Teslim (opsiyonel)
+
+- "Devam edeyim mi?" YASAK
+- "X mi Y mi?" YASAK
+- Plan teklifi sonrasi onay bekleme YASAK
+- Kullanici ne dediyse en iyi yorumla → tasarla → uygula → teslim et
+
+Istisnalar (sadece bunlar onay ister):
+- Veri silme, dosya silme, klasor silme
+- Shared sistem degisikligi (database drop, prod deploy, force push)
+- Para harcayacak servis
+- Kullanici hesabini etkileyen islem
+
+## Kullanim
+Bu dosyayi `~/.claude/CLAUDE.md` yapmak isterseniz:
+```cmd
+copy "%USERPROFILE%\claude-agent\claude-config\CLAUDE.md.example" "%USERPROFILE%\.claude\CLAUDE.md"
+```

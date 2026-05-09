@@ -1,0 +1,1 @@
+{"sourceFolder":"code-simplifier","repoSha":"2fbc7514f6964acabcfac65501b8bb6b525e3aa8","installedAt":"2026-05-08T21:35:24","description":"Review RTK Rust code for idiomatic simplification. Detects over-engineering, unnecessary allocations, verbose patterns. Applies Rust idioms without changing behavior.","skillName":"code-simplifier","origin":"https://github.com/rtk-ai/rtk"}
