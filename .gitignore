@@ -49,6 +49,7 @@ awesome-claude-skills/
 backups/
 repos/
 screenshots/
+plans/
 
 # Activity logs (privacy)
 learnings/*.json
