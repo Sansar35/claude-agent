@@ -4,11 +4,13 @@
 
 ### Comprehensive Claude Code configuration bundle
 
-**11.000+ community skills · 591 specialized subagents · 417 slash commands · Single command install**
+**11.000+ community skills · 591 specialized subagents · 417 slash commands · 14-provider multi-AI orchestrator**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Multi-IDE](https://img.shields.io/badge/IDE-Claude_Code_·_Cursor_·_Antigravity_·_VS_Code-purple.svg)](INSTALL-OTHER-IDES.md)
 [![Skills](https://img.shields.io/badge/Community_Skills-11k+-blueviolet.svg)](#-community-content)
+[![Multi-AI](https://img.shields.io/badge/Multi--AI-63_models_·_14_providers-ff69b4.svg)](#-multi-ai-orchestration)
+[![Modes](https://img.shields.io/badge/Modes-SOLO_·_LIGHT_·_HEAVY-orange.svg)](#-multi-ai-orchestration)
 
 ---
 
@@ -29,6 +31,150 @@ After running the installer your `~/.claude/` directory contains:
 - **230+ templates** for hooks, MCP servers, and settings
 - **CLAUDE.md.example** — starter rules template
 - **settings.example.json** — starter settings template
+
+---
+
+## 🧠 Multi-AI Orchestration
+
+Claude Agent ships with a **line-threshold orchestrator**: every task is routed to the smallest team that can deliver it, scaling from 1 AI for trivial edits up to 63 AI for whole-system rewrites.
+
+<table align="center">
+<tr>
+  <th align="center">Mode</th>
+  <th align="center">Trigger</th>
+  <th align="center">AI Count</th>
+  <th align="center">Composition</th>
+</tr>
+<tr>
+  <td align="center">🟢 <b>SOLO</b></td>
+  <td align="center">≤ 2 000 lines</td>
+  <td align="center"><code>1</code></td>
+  <td>Claude Opus (lead only)</td>
+</tr>
+<tr>
+  <td align="center">🟡 <b>LIGHT</b></td>
+  <td align="center">2 001 – 5 000 lines</td>
+  <td align="center"><code>3</code></td>
+  <td>Opus + Sonnet + Haiku<br><sub>Anthropic-only, subscription-friendly</sub></td>
+</tr>
+<tr>
+  <td align="center">🔴 <b>HEAVY</b></td>
+  <td align="center">&gt; 5 000 lines</td>
+  <td align="center"><code>63</code></td>
+  <td>Opus lead + 62 parallel workers across 14 providers</td>
+</tr>
+</table>
+
+> **Auto-routing.** The orchestrator estimates the diff size before writing code and picks the cheapest mode that still ships zero-bug output.
+
+<details>
+<summary><b>📊 HEAVY mode — full provider line-up (63 AI)</b></summary>
+
+<br>
+
+<table>
+<tr>
+  <td>
+
+**Anthropic (3)**
+- ★ Claude Opus 4.7 *(lead)*
+- Claude Sonnet 4.6
+- Claude Haiku 4.5
+
+**OpenAI (8)**
+- GPT-5 · GPT-5 Mini
+- GPT-4o · GPT-4o Mini
+- o1 · o1 Mini
+- o3 · o3 Mini
+
+**Google Gemini (5)**
+- Gemini 2.5 Pro · 2.5 Flash
+- Gemini 2.0 Flash
+- Gemini 1.5 Pro · 1.5 Flash
+
+**DeepSeek (2)**
+- DeepSeek V3 Chat
+- DeepSeek R1
+
+**Mistral (6)**
+- Large · Medium · Small
+- Codestral · Ministral · Pixtral
+
+**Groq (8)**
+- Llama 3.3 · 3.1 · Vision
+- Qwen · R1 Distill
+- Gemma 2 · Saba · Llama 3 70B
+
+  </td>
+  <td>
+
+**Cerebras (4)**
+- Qwen 235B
+- Llama 3.3 · Llama 4 · Llama 3.1
+
+**Together (6)**
+- Llama 3.3 · 405B
+- Qwen · Mixtral
+- DeepSeek V3 · QwQ
+
+**Fireworks (5)**
+- Llama 3.3 · 405B
+- Qwen · DeepSeek V3 · Mixtral
+
+**xAI (3)**
+- Grok 3 · Grok 3 Mini
+- Grok 2 Vision
+
+**Cohere (4)**
+- Command A · R+ · R · R7B
+
+**Hyperbolic (5)**
+- Llama 405B · 70B · 3.3
+- Qwen · DeepSeek V3
+
+**SambaNova (4)**
+- Llama 3.3 · 405B
+- Qwen · DeepSeek V3
+
+  </td>
+</tr>
+</table>
+
+</details>
+
+<details>
+<summary><b>💤 Optional providers (drop in extra credentials to unlock +200 models)</b></summary>
+
+<br>
+
+| Provider | Adds |
+|---|---|
+| **OpenRouter** | 200+ aggregated models |
+| **Google AI Studio** | extra Gemini variants |
+| **Perplexity** | Sonar, Sonar Pro, Sonar Reasoning |
+| **DeepInfra** | Llama 3 · Mixtral · Qwen tier |
+| **NVIDIA NIM** | Llama-Nemotron, retrieval-tuned models |
+| **Hugging Face Inference** | open-weights router |
+
+</details>
+
+<details>
+<summary><b>⚙️ How auto-routing decides</b></summary>
+
+<br>
+
+```text
+incoming task
+   │
+   ├─ knowledge / one-line / typo / pure read   → SOLO
+   ├─ existing-file surgical fix (≤ 2k lines)   → SOLO
+   ├─ multi-file refactor (2k – 5k lines)       → LIGHT
+   └─ greenfield / cross-cutting (> 5k lines)   → HEAVY
+```
+
+The router prefers **the smallest viable mode** to keep latency low and runs cost predictable.
+
+</details>
 
 ---
 
