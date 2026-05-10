@@ -4,9 +4,9 @@ team/.env
 *.env.local
 *.env.production
 *.env.private
-# ISTISNA: repos/jarviz-team/.env BOS SABLON olarak commit edilir (key icermez)
-!repos/jarviz-team/.env
-!repos/jarviz-team/.env.example
+# ISTISNA: repos/team/.env BOS SABLON olarak commit edilir (key icermez)
+!repos/team/.env
+!repos/team/.env.example
 
 # Python
 __pycache__/
@@ -51,9 +51,9 @@ awesome-claude-skills/
 
 # Empty / local-only working dirs
 backups/
-# repos/ — sadece direkt cocuklar exclude, jarviz-team istisnasi
+# repos/ — sadece direkt cocuklar exclude, team istisnasi
 repos/*
-!repos/jarviz-team/
+!repos/team/
 screenshots/
 plans/
 

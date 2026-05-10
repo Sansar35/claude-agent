@@ -1,4 +1,4 @@
-# JARVIZ MULTI-AI TEAM
+# MULTI-AI TEAM
 
 > Lider **Claude Opus 4.7** + **20+ farkli AI** ayni projeyi PARALEL gelistirir.
 
@@ -27,8 +27,8 @@
 ## Kurulum (TEK SEFERLIK)
 
 ```cmd
-copy C:\Users\emre\.claude\repos\jarviz-team\.env.example C:\Users\emre\.claude\repos\jarviz-team\.env
-notepad C:\Users\emre\.claude\repos\jarviz-team\.env
+copy C:\Users\emre\.claude\repos\team\.env.example C:\Users\emre\.claude\repos\team\.env
+notepad C:\Users\emre\.claude\repos\team\.env
 ```
 
 Notepad'de **istedigin kadar key** doldur (hangi key'i girersen o ajan ekibe katilir, gerisi pas gecer). Anthropic key'e GEREK YOK — Claude Max aboneligi yetiyor.
@@ -36,7 +36,7 @@ Notepad'de **istedigin kadar key** doldur (hangi key'i girersen o ajan ekibe kat
 ## Test (key durumu gor)
 
 ```cmd
-cd C:\Users\emre\.claude\repos\jarviz-team
+cd C:\Users\emre\.claude\repos\team
 python test.py
 ```
 
@@ -45,7 +45,7 @@ Cikti: aktif worker listesi + hangi key girilmis.
 ## Kullanim
 
 ```cmd
-cd C:\Users\emre\.claude\repos\jarviz-team
+cd C:\Users\emre\.claude\repos\team
 python team.py "FastAPI ile JWT login API yaz, sqlite + bcrypt"
 ```
 

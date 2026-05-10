@@ -1,5 +1,5 @@
 """
-JARVIZ DEMO - Paralelligi GOZLE GOSTERIR
+TEAM DEMO - Paralelligi GOZLE GOSTERIR
 =========================================
 Aktif tum worker'lara ayni kisa soruyu sorar, her birinin
 basladi/bitti zamanini ASCII grafiginde cizer.
@@ -45,7 +45,7 @@ async def demo(question: str):
     n = len(all_agents)
     print()
     print("=" * 78)
-    print(f"  JARVIZ PARALELLIK DEMO  -  {n} AI motoru AYNI ANDA calisiyor")
+    print(f"  PARALELLIK DEMO  -  {n} AI motoru AYNI ANDA calisiyor")
     print("=" * 78)
     print(f"  Soru: {question}")
     print("=" * 78)

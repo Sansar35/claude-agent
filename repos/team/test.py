@@ -13,7 +13,7 @@ except ImportError:
 from team import build_workers
 
 print("=" * 60)
-print("JARVIZ MULTI-AI TEAM — SMOKE TEST")
+print("MULTI-AI TEAM — SMOKE TEST")
 print("=" * 60)
 print("\n* LIDER (ANA MERKEZ): claude-opus-4-7  (Claude Max abonelik, key gerekmez)")
 print("  Workers/ajanlar yardimci rolde -- Opus plan yapar, sentezler, final cikar.\n")

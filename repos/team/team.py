@@ -1,5 +1,5 @@
 """
-JARVIZ MULTI-AI TEAM
+MULTI-AI TEAM
 ====================
 Lider:  Claude Opus 4.7  (Claude Max abonelik, KEY GEREKMEZ — claude-agent-sdk)
 Worker: Claude Sonnet 4.6 + Haiku 4.5 (yine abonelik) + diger AI'lar (key ile)
@@ -39,7 +39,7 @@ os.environ.setdefault("LITELLM_LOG", "ERROR")
 # =====================================================================
 # OBSERVABILITY — gercek zamanli istek goz takibi
 # =====================================================================
-VERBOSE = os.environ.get("JARVIZ_VERBOSE", "1") == "1"   # default ACIK
+VERBOSE = os.environ.get("TEAM_VERBOSE", "1") == "1"   # default ACIK
 LOG_DIR = Path(__file__).parent / "runs"
 LOG_DIR.mkdir(exist_ok=True)
 RUN_ID = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -489,12 +489,12 @@ async def develop(brief: str, lead_model: str = "", mode: str = "heavy") -> str:
     lead = lead_model or _key("LEAD_MODEL") or "claude-opus-4-7"
     workers = build_workers(mode=mode)
 
-    print(f"\n[JARVIZ-TEAM] Mode: {mode.upper()}  ({'sadece Anthropic 3lu' if mode == 'light' else 'tum aktif provider'})")
-    print(f"[JARVIZ-TEAM] Lider: {lead} (subscription)")
-    print(f"[JARVIZ-TEAM] Worker sayisi: {len(workers)}")
-    print(f"[JARVIZ-TEAM] Verbose istek izleme: {'ACIK' if VERBOSE else 'KAPALI'}  (env JARVIZ_VERBOSE=0 ile kapatabilirsin)")
-    print(f"[JARVIZ-TEAM] Run log: {LOG_FILE}")
-    print(f"[JARVIZ-TEAM] Pivot ozet: python summary.py {LOG_FILE.name}\n")
+    print(f"\n[TEAM] Mode: {mode.upper()}  ({'sadece Anthropic 3lu' if mode == 'light' else 'tum aktif provider'})")
+    print(f"[TEAM] Lider: {lead} (subscription)")
+    print(f"[TEAM] Worker sayisi: {len(workers)}")
+    print(f"[TEAM] Verbose istek izleme: {'ACIK' if VERBOSE else 'KAPALI'}  (env TEAM_VERBOSE=0 ile kapatabilirsin)")
+    print(f"[TEAM] Run log: {LOG_FILE}")
+    print(f"[TEAM] Pivot ozet: python summary.py {LOG_FILE.name}\n")
     for w in workers:
         print(f"  - {w['role']}")
     _log_event({"ts": time.time(), "phase": "session_start", "mode": mode, "lead": lead,
@@ -519,7 +519,7 @@ GOREV [uzman-name]: aciklama metni
     plan = await claude_call(
         plan_prompt,
         model=lead,
-        system="Sen JARVIZ Hive Mind lidersin. Project Manager + Architect rolunde dusun. Net ve dagitilabilir plan cikar.",
+        system="Sen Hive Mind lidersin. Project Manager + Architect rolunde dusun. Net ve dagitilabilir plan cikar.",
     )
     print("\n--- LIDER PLANI ---")
     print(plan)
@@ -566,7 +566,7 @@ GOREVIN:
     final = await claude_call(
         synth_prompt,
         model=lead,
-        system="Sen JARVIZ Lidersin. Sentezci, kararli, eksiksiz. Final cikti uret.",
+        system="Sen Lidersin. Sentezci, kararli, eksiksiz. Final cikti uret.",
     )
     return final
 

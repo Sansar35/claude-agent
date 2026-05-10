@@ -1,5 +1,5 @@
 """
-JARVIZ Team Run Summary
+Team Run Summary
 =======================
 runs/<id>.jsonl dosyasini okur ve provider/model basina ozetler:
   - kac istek atildi
@@ -44,7 +44,7 @@ def main():
     logf = find_log(arg)
 
     print("=" * 78)
-    print(f"JARVIZ TEAM RUN SUMMARY  —  {logf.name}")
+    print(f"TEAM RUN SUMMARY  —  {logf.name}")
     print("=" * 78)
 
     events = []

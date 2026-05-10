@@ -1,5 +1,5 @@
 """
-JARVIZ VERIFY — Her ajanin GERCEKTEN site'ye istek attigini KANITLAR
+TEAM VERIFY — Her ajanin GERCEKTEN site'ye istek attigini KANITLAR
 =====================================================================
 Cikti orneği:
   OK  Groq      | api.groq.com           | 0.42s | "pong" | 12 tokens
@@ -150,7 +150,7 @@ HTTP_PROVIDERS = [
 async def main():
     print()
     print("=" * 88)
-    print("  JARVIZ VERIFY  -  Her ajanin GERCEKTEN siteye HTTP istek attigini kanitlar")
+    print("  TEAM VERIFY  -  Her ajanin GERCEKTEN siteye HTTP istek attigini kanitlar")
     print("=" * 88)
     print()
 
