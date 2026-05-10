@@ -53,7 +53,7 @@
 <div class="cmd-box">
   <div class="cmd-title">📋 1) .env DOSYASINI AC (KOPYALA → CMD'YE YAPISTIR)</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd1">notepad C:\Users\emre\.claude\repos\team\.env</div>
+    <div class="cmd-code" id="cmd1">notepad %USERPROFILE%\.claude\repos\team\.env</div>
     <button class="copy-btn" onclick="copyIt('cmd1', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Bu komutu CMD'ye yapistirip Enter'a bas — Notepad acilir, key'leri ilgili satirlara yapistir, Ctrl+S ile kaydet.</div>
@@ -62,7 +62,7 @@
 <div class="cmd-box">
   <div class="cmd-title">📋 2) AKTIF KEY DURUMUNU GOR</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd2">cd C:\Users\emre\.claude\repos\team &amp;&amp; python test.py</div>
+    <div class="cmd-code" id="cmd2">cd %USERPROFILE%\.claude\repos\team &amp;&amp; python test.py</div>
     <button class="copy-btn" onclick="copyIt('cmd2', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Hangi key girildi, kac worker aktif olduğunu gosterir.</div>
@@ -71,7 +71,7 @@
 <div class="cmd-box">
   <div class="cmd-title">📋 3) PARALELLIK DEMOSU (HEPSI BIR ANDA CALISIYOR MU GOR)</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd3">cd C:\Users\emre\.claude\repos\team &amp;&amp; python demo.py</div>
+    <div class="cmd-code" id="cmd3">cd %USERPROFILE%\.claude\repos\team &amp;&amp; python demo.py</div>
     <button class="copy-btn" onclick="copyIt('cmd3', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Her ajan kisa soruyu cevaplar, BASLAMA/BITME zamanlarini ASCII bar grafiginde gosterir. Paralelligi gozle gorursun.</div>
@@ -80,7 +80,7 @@
 <div class="cmd-box">
   <div class="cmd-title">📋 4) VERIFY — KEY'LERIN GERCEK ISTEK ATTIGINI KANITLA</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd4">chcp 65001 &amp;&amp; cd /d C:\Users\emre\.claude\repos\team &amp;&amp; python verify.py</div>
+    <div class="cmd-code" id="cmd4">chcp 65001 &amp;&amp; cd /d %USERPROFILE%\.claude\repos\team &amp;&amp; python verify.py</div>
     <button class="copy-btn" onclick="copyIt('cmd4', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Her aktif ajana 1 saniyelik 'pong' istegi atar. Hangi endpoint, latency, token sayisi gosterir. Latency &gt; 0 + token gelirse = istek GERCEKTEN gitti, ajan GERCEKTEN aktif.</div>
@@ -89,7 +89,7 @@
 <div class="cmd-box">
   <div class="cmd-title">📋 5) TUM EKIBI CALISTIR (PARALEL URETIM)</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd5">chcp 65001 &amp;&amp; cd /d C:\Users\emre\.claude\repos\team &amp;&amp; python team.py "FastAPI ile JWT login API yaz"</div>
+    <div class="cmd-code" id="cmd5">chcp 65001 &amp;&amp; cd /d %USERPROFILE%\.claude\repos\team &amp;&amp; python team.py "FastAPI ile JWT login API yaz"</div>
     <button class="copy-btn" onclick="copyIt('cmd5', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Lider Opus plan yapar → tum AI'lar paralel kod yazar → Lider sentezler.</div>
@@ -219,8 +219,8 @@
 </div>
 
 <div class="footer">
-  Dosya: <code>C:\Users\emre\.claude\key.html</code> — cift tikla, tarayicida acilir.<br>
-  Sistem: <code>C:\Users\emre\.claude\repos\team\</code>
+  Dosya: <code>%USERPROFILE%\.claude\key.html</code> — cift tikla, tarayicida acilir.<br>
+  Sistem: <code>%USERPROFILE%\.claude\repos\team\</code>
 </div>
 
 <script>
