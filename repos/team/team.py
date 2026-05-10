@@ -109,6 +109,26 @@ def _vprint(line: str):
     if VERBOSE:
         print(line, flush=True)
 
+
+# =====================================================================
+# DINAMIK ROUTING — Hata alan ajanlari oturum boyunca skip et
+# =====================================================================
+_FAILED_WORKERS: dict[str, str] = {}  # {worker_name: error_msg}
+
+def _mark_failed(worker_name: str, error: str):
+    """Bu oturumda fail eden worker'i kaydet — sonraki cagrida skip edilir."""
+    _FAILED_WORKERS[worker_name] = error
+    _log_event({"ts": time.time(), "phase": "worker_marked_failed",
+                "worker": worker_name, "error": error[:200]})
+
+def _get_failed_workers() -> set[str]:
+    """Hata cache'i — develop() bunu okuyup skip listesi olusturur."""
+    return set(_FAILED_WORKERS.keys())
+
+def _reset_failed():
+    """Manuel reset — sonraki develop() cagrisinda tum worker'lara tekrar sans ver."""
+    _FAILED_WORKERS.clear()
+
 # =====================================================================
 # ANTHROPIC KATMANI (subscription, key gerekmez)
 # =====================================================================
@@ -485,8 +505,16 @@ GOREV [uzman-name]: aciklama metni
     print(plan)
     print("--- /PLAN ---\n")
 
-    # === ADIM 2: WORKER'LAR PARALEL CALISSIN ===
-    print(f"[ADIM 2] {len(workers)} worker PARALEL calisiyor (asyncio.gather)...")
+    # === ADIM 2: WORKER'LAR PARALEL CALISSIN — DINAMIK ROUTING ===
+    # Filtre: daha onceki cagrida fail olan worker'lar bu turn da CONNECTION_BROKEN listesinde ise skip edilir.
+    skip_list = _get_failed_workers()
+    active_workers = [w for w in workers if w["name"] not in skip_list]
+    skipped_count = len(workers) - len(active_workers)
+    if skipped_count > 0:
+        print(f"[ADIM 2] {len(active_workers)} aktif worker (oturumda hata almis {skipped_count} ajan ATLANDI)")
+    else:
+        print(f"[ADIM 2] {len(workers)} worker PARALEL calisiyor (asyncio.gather)...")
+
     async def _run(w):
         sub = f"""ANA PROJE: {brief}
 
@@ -498,26 +526,45 @@ Sadece kendi alaninda uretim yap. Kisa aciklama + asil cikti (kod/dok/test).
 """
         try:
             r = await w["fn"](sub, w["system"])
+            # Bos response veya HATA isareti = fail say
+            if not r or r.startswith("[HATA") or r.startswith("[bos cevap"):
+                _mark_failed(w["name"], "empty/hata response")
+                print(f"  [FAIL] {w['name']:18s} bos/hata response")
+                return {"name": w["name"], "role": w["role"], "result": None, "ok": False}
             print(f"  [OK]   {w['name']:18s} ({len(r)} char)")
-            return {"name": w["name"], "role": w["role"], "result": r}
+            return {"name": w["name"], "role": w["role"], "result": r, "ok": True}
         except Exception as e:
-            print(f"  [FAIL] {w['name']:18s} {e}")
-            return {"name": w["name"], "role": w["role"], "result": f"[HATA: {e}]"}
+            _mark_failed(w["name"], str(e)[:80])
+            print(f"  [FAIL] {w['name']:18s} {type(e).__name__}: {str(e)[:60]}")
+            return {"name": w["name"], "role": w["role"], "result": None, "ok": False}
 
-    results = await asyncio.gather(*(_run(w) for w in workers))
+    all_results = await asyncio.gather(*(_run(w) for w in active_workers))
 
-    # === ADIM 3: LIDER SENTEZLESIN ===
-    print(f"\n[ADIM 3] Lider (Opus) {len(results)} ciktiyi sentezliyor...")
+    # Basarili ve fail ayikla
+    success = [r for r in all_results if r["ok"]]
+    failed  = [r for r in all_results if not r["ok"]]
+    print(f"\n[ROUTING] BASARILI: {len(success)} ajan  |  FAIL: {len(failed)} ajan  |  SKIP: {skipped_count} (onceden hata)")
+    if failed:
+        print(f"[ROUTING] Fail eden ajanlar (bu oturumda artik atlanir): {', '.join(r['name'] for r in failed)}")
+
+    # === ADIM 3: LIDER SENTEZLESIN — sadece basarililari kullan ===
+    print(f"\n[ADIM 3] Lider (Opus) {len(success)} basarili ciktiyi sentezliyor (fail/skip olanlar dahil edilmedi)...")
+    if not success:
+        return "[HATA] Hicbir worker basarili response uretmedi. .env.local key'lerini kontrol et veya provider servisleri uzgun olabilir."
+
     synth = "\n\n".join(
-        f"### {r['role']} ({r['name']})\n{r['result']}" for r in results
+        f"### {r['role']} ({r['name']})\n{r['result']}" for r in success
     )
+    fail_note = ""
+    if failed or skipped_count > 0:
+        fail_note = f"\n\nNOT: {len(failed)} ajan bu istekte hata aldi, {skipped_count} ajan onceki hatalardan skip edildi. Final cikti sadece {len(success)} basarili ajan uzerinden hazirlandi."
     synth_prompt = f"""PROJE: {brief}
 
-EKIBIN URETTIKLERI:
-{synth}
+EKIBIN URETTIKLERI ({len(success)} ajan):
+{synth}{fail_note}
 
 GOREVIN:
-- Tum ciktilari birlestir, celiskileri coz, son halini ver
+- Tum basarili ciktilari birlestir, celiskileri coz, son halini ver
 - Eksik parcalar varsa kendi tamamla
 - Tutarsizliklari duzelt
 - Calistirilabilir / yayinlanabilir final teslimat ver
