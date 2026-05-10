@@ -60,23 +60,28 @@
   .badge{display:inline-block;background:#1f6feb22;color:#58a6ff;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;width:fit-content}
   .badge.free{background:#2ea04322;color:#3fb950}
   .badge.cheap{background:#9c27b022;color:#bc8cff}
-  .badge.premium{background:#fd7e1422;color:#ffa657}
-  .badge.enterprise{background:#1f6feb22;color:#58a6ff}
   .badge.opensource{background:#f0883e22;color:#f0883e}
-  .badge.china{background:#da363322;color:#ff7b72}
   .badge.niche{background:#56d4dd22;color:#56d4dd}
+  .badge.proxy{background:#1f6feb22;color:#58a6ff}
   a.btn{display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;background:#00ff88;color:#0a0e14;padding:8px 12px;border-radius:5px;text-decoration:none;font-weight:700;font-size:12px;margin-top:4px;transition:background .15s;letter-spacing:.5px}
   a.btn:hover{background:#00cc6a}
   a.btn::before{content:"🔗"}
   code{background:#21262d;padding:2px 6px;border-radius:4px;font-size:12.5px;color:#f0883e;font-family:Consolas,monospace}
 
   .footer{margin-top:42px;padding-top:18px;border-top:1px solid #21262d;color:#7d8590;font-size:11px;text-align:center;line-height:1.7}
+
+  .clean-note{background:#fd7e1411;border-left:3px solid #fd7e14;border-radius:6px;padding:12px 16px;margin:16px 0;color:#ffa657;font-size:12px;line-height:1.6}
+  .clean-note strong{color:#fd7e14}
 </style>
 </head>
 <body>
 
 <h1>🤖 JARVIZ KEY MERKEZI</h1>
 <div class="sub">Iki amac: <strong style="color:#00ff88">1)</strong> CMD komutlarini calistirma, <strong style="color:#58a6ff">2)</strong> Hizli key bulup .env'e yapistirma.</div>
+
+<div class="clean-note">
+  ✨ <strong>TEMIZLENDI (2026-05-10):</strong> Sorunlu, kapanmis, kurumsal-onay-gerektiren ve direkt key vermeyen servisler kaldirildi. SADECE email veya GitHub login ile direkt key alinabilen aktif servisler kaldi.
+</div>
 
 <!-- 3 ADIM REHBER -->
 <div class="flow">
@@ -217,7 +222,7 @@
   </div>
   <div class="card">
     <div class="name">NVIDIA NIM</div>
-    <div class="desc">Nemotron 70B + Llama. Aylik 1000 bedava cagri.</div>
+    <div class="desc">Nemotron 70B + Llama. Aylik 1000 bedava cagri. NVIDIA hesabi yeterli.</div>
     <span class="badge free">1000/AY</span>
     <a class="btn" href="https://build.nvidia.com/explore/discover" target="_blank" rel="noopener">KEY AL</a>
   </div>
@@ -233,9 +238,15 @@
     <span class="badge free">HIZLI LLAMA</span>
     <a class="btn" href="https://cloud.sambanova.ai/apis" target="_blank" rel="noopener">KEY AL</a>
   </div>
+  <div class="card">
+    <div class="name">HuggingFace</div>
+    <div class="desc">router.huggingface.co — bedava inference, milyonlarca acik model.</div>
+    <span class="badge free">BEDAVA</span>
+    <a class="btn" href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">KEY AL</a>
+  </div>
 </div>
 
-<h3 class="cat">🟣 Ucuz</h3>
+<h3 class="cat">🟣 Ucuz / Kaliteli</h3>
 <div class="grid">
   <div class="card">
     <div class="name">DeepSeek</div>
@@ -266,90 +277,6 @@
     <div class="desc">Llama 3.1 70B + FLUX (gorsel). Decentralized GPU.</div>
     <span class="badge cheap">LLAMA+FLUX</span>
     <a class="btn" href="https://app.hyperbolic.xyz/settings" target="_blank" rel="noopener">KEY AL</a>
-  </div></div>
-
-<h3 class="cat">🟠 Premium</h3>
-<div class="grid">
-  <div class="card">
-    <div class="name">OpenAI</div>
-    <div class="desc">GPT-5 / o3 direkt. En guclu kapali kaynak modeller.</div>
-    <span class="badge premium">GPT-5</span>
-    <a class="btn" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">xAI</div>
-    <div class="desc">Grok 3 / Grok 3 Mini. X.com gercek-zamanli verisiyle entegre.</div>
-    <span class="badge premium">GROK 3</span>
-    <a class="btn" href="https://console.x.ai" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Writer</div>
-    <div class="desc">Palmyra X 004 — kurumsal yazim icin optimize. Marka tonu.</div>
-    <span class="badge premium">PALMYRA</span>
-    <a class="btn" href="https://app.writer.com/aistudio/api-keys" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">AI21 Labs</div>
-    <div class="desc">Jamba 1.5 Large — Mamba+Transformer hibrit. 256K context.</div>
-    <span class="badge premium">JAMBA</span>
-    <a class="btn" href="https://studio.ai21.com/account/api-key" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Aleph Alpha</div>
-    <div class="desc">Luminous Supreme — Avrupa GDPR uyumlu, multilingual.</div>
-    <span class="badge premium">EU</span>
-    <a class="btn" href="https://app.aleph-alpha.com" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Inflection AI</div>
-    <div class="desc">Pi 3.0 — empati odakli sohbet, yumusak ton.</div>
-    <span class="badge premium">PI 3.0</span>
-    <a class="btn" href="https://inflection.ai/" target="_blank" rel="noopener">KEY AL</a>
-  </div></div>
-
-<h3 class="cat">🔵 Enterprise</h3>
-<div class="grid">
-  <div class="card">
-    <div class="name">Azure OpenAI</div>
-    <div class="desc">GPT-5/o3 Microsoft Azure altinda. Endpoint + deployment kurma gerek.</div>
-    <span class="badge enterprise">MICROSOFT</span>
-    <a class="btn" href="https://portal.azure.com" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">AWS Bedrock</div>
-    <div class="desc">Claude/Llama/Mistral/Cohere/Titan AWS uzerinden. IAM + region.</div>
-    <span class="badge enterprise">AWS</span>
-    <a class="btn" href="https://console.aws.amazon.com/bedrock" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">Google Vertex AI</div>
-    <div class="desc">Gemini 2.5 + Claude on Vertex + Llama. GCP project + service account.</div>
-    <span class="badge enterprise">GCP</span>
-    <a class="btn" href="https://console.cloud.google.com/vertex-ai" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">IBM WatsonX</div>
-    <div class="desc">Granite 3 + Llama/Mistral. Kurumsal yonetisim, audit log.</div>
-    <span class="badge enterprise">IBM</span>
-    <a class="btn" href="https://www.ibm.com/products/watsonx-ai" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">Databricks</div>
-    <div class="desc">DBRX + Llama serving endpoints. Workspace + model serving.</div>
-    <span class="badge enterprise">DBRX</span>
-    <a class="btn" href="https://docs.databricks.com/api/workspace" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">Snowflake Cortex</div>
-    <div class="desc">SQL'den dogrudan LLM cagri. Veri ambari icinden inference.</div>
-    <span class="badge enterprise">SQL+LLM</span>
-    <a class="btn" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex" target="_blank" rel="noopener">SETUP</a>
-  </div>
-  <div class="card">
-    <div class="name">Vercel AI Gateway</div>
-    <div class="desc">Multi-provider proxy. Caching + rate limit + observability.</div>
-    <span class="badge enterprise">PROXY</span>
-    <a class="btn" href="https://vercel.com/docs/ai-gateway" target="_blank" rel="noopener">SETUP</a>
   </div>
 </div>
 
@@ -357,39 +284,15 @@
 <div class="grid">
   <div class="card">
     <div class="name">Replicate</div>
-    <div class="desc">Llama, FLUX, MusicGen, Stable Diffusion. Pay-per-second.</div>
+    <div class="desc">Llama, FLUX, MusicGen, Stable Diffusion. GitHub login yeter.</div>
     <span class="badge opensource">LLAMA+FLUX</span>
     <a class="btn" href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">AnyScale</div>
-    <div class="desc">Ray uzerinde Llama 3.1 70B/405B + Mixtral. Production-grade.</div>
-    <span class="badge opensource">RAY</span>
-    <a class="btn" href="https://app.endpoints.anyscale.com" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Baseten</div>
     <div class="desc">Custom open-source model serving. Truss framework ile deploy.</div>
     <span class="badge opensource">TRUSS</span>
     <a class="btn" href="https://www.baseten.co/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">OctoAI</div>
-    <div class="desc">Llama 3.1 + Mixtral 8x22B. NVIDIA tarafindan satin alindi.</div>
-    <span class="badge opensource">NVIDIA</span>
-    <a class="btn" href="https://octoai.cloud/settings" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Lepton AI</div>
-    <div class="desc">Llama 3.3 70B serverless. Hizli soguk-baslatma.</div>
-    <span class="badge opensource">SERVERLESS</span>
-    <a class="btn" href="https://www.lepton.ai/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">SiliconFlow</div>
-    <div class="desc">DeepSeek V3 + Qwen + Llama 405B + Yi. Cin tabanli OS cloud.</div>
-    <span class="badge opensource">DSV3+QWEN</span>
-    <a class="btn" href="https://cloud.siliconflow.cn/account/ak" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Novita AI</div>
@@ -417,7 +320,7 @@
   </div>
   <div class="card">
     <div class="name">AIMLAPI</div>
-    <div class="desc">200+ model proxy. GPT-4o, Llama, DeepSeek tek endpoint.</div>
+    <div class="desc">200+ model proxy. GPT, Llama, DeepSeek tek endpoint.</div>
     <span class="badge opensource">PROXY 200+</span>
     <a class="btn" href="https://aimlapi.com/app/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
@@ -428,44 +331,28 @@
     <a class="btn" href="https://nscale.ai/dashboard" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">NetMind</div>
-    <div class="desc">Llama 3.3 70B decentralized GPU network.</div>
-    <span class="badge opensource">DECENTRAL</span>
-    <a class="btn" href="https://www.netmind.ai/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
     <div class="name">Featherless</div>
     <div class="desc">HuggingFace'deki HER modeli sunar. Subscription model.</div>
     <span class="badge opensource">ANY HF</span>
     <a class="btn" href="https://featherless.ai/account" target="_blank" rel="noopener">KEY AL</a>
   </div>
-  <div class="card">
-    <div class="name">Targon</div>
-    <div class="desc">Llama 3.3 70B Bittensor uzerinde merkezsiz inference.</div>
-    <span class="badge opensource">BITTENSOR</span>
-    <a class="btn" href="https://targon.com/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Latitude AI</div>
-    <div class="desc">Open-source LLM hosting + prompt engineering platformu.</div>
-    <span class="badge opensource">PROMPT</span>
-    <a class="btn" href="https://latitude.so/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Inference.net</div>
-    <div class="desc">Llama 3.1 70B serverless OpenAI-compat endpoint.</div>
-    <span class="badge opensource">SERVERLESS</span>
-    <a class="btn" href="https://inference.net/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">GooseAI</div>
-    <div class="desc">GPT-NeoX, Fairseq open model API. NLP focus.</div>
-    <span class="badge opensource">NLP</span>
-    <a class="btn" href="https://goose.ai/" target="_blank" rel="noopener">KEY AL</a>
-  </div>
 </div>
 
-
+<h3 class="cat">🟠 Niche</h3>
+<div class="grid">
+  <div class="card">
+    <div class="name">AI21 Labs</div>
+    <div class="desc">Jamba 1.5 Large — Mamba+Transformer hibrit. 256K context.</div>
+    <span class="badge niche">JAMBA</span>
+    <a class="btn" href="https://studio.ai21.com/account/api-key" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Writer</div>
+    <div class="desc">Palmyra X 004 — kurumsal yazim icin optimize. Marka tonu.</div>
+    <span class="badge niche">PALMYRA</span>
+    <a class="btn" href="https://app.writer.com/aistudio/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+</div>
 
 <h3 class="cat">🔷 Embeddings</h3>
 <div class="grid">
@@ -481,30 +368,23 @@
     <span class="badge niche">EMBED+READ</span>
     <a class="btn" href="https://jina.ai/?sui=apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
+</div>
+
+<h3 class="cat">🔵 Proxy / Gateway</h3>
+<div class="grid">
   <div class="card">
-    <div class="name">BAAI</div>
-    <div class="desc">BGE embeddings (acik kaynak lider). MTEB benchmark zirvesi.</div>
-    <span class="badge niche">BGE</span>
-    <a class="btn" href="https://www.baai.ac.cn/english.html" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">NLPCloud</div>
-    <div class="desc">NER, sentiment, summarization, translate. Klasik NLP.</div>
-    <span class="badge niche">NLP</span>
-    <a class="btn" href="https://nlpcloud.com/home/token" target="_blank" rel="noopener">KEY AL</a>
-  </div>
-  <div class="card">
-    <div class="name">Character.AI</div>
-    <div class="desc">Persona-bazli sohbet. Karakter rolleri icin optimize.</div>
-    <span class="badge niche">PERSONA</span>
-    <a class="btn" href="https://character.ai/" target="_blank" rel="noopener">KEY AL</a>
+    <div class="name">Vercel AI Gateway</div>
+    <div class="desc">Multi-provider proxy. Caching + rate limit + observability.</div>
+    <span class="badge proxy">PROXY</span>
+    <a class="btn" href="https://vercel.com/docs/ai-gateway" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
 
 <div class="footer">
   <strong>Dosya:</strong> <code>%USERPROFILE%\.claude\key.html</code> — cift tikla, tarayicida acilir<br>
   <strong>Sistem:</strong> <code>%USERPROFILE%\.claude\repos\team\</code><br>
-  <strong>GitHub:</strong> <a href="https://github.com/Sansar35/claude-agent" target="_blank" rel="noopener" style="color:#58a6ff">github.com/Sansar35/claude-agent</a>
+  <strong>GitHub:</strong> <a href="https://github.com/Sansar35/claude-agent" target="_blank" rel="noopener" style="color:#58a6ff">github.com/Sansar35/claude-agent</a><br>
+  <strong>Temizlik:</strong> 2026-05-10 — kapali / sorunlu / kurumsal-onay-gerektiren servisler kaldirildi.
 </div>
 
 <script>
