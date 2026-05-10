@@ -2,68 +2,141 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Claude Agent Key Merkezi</title>
+<title>JARVIZ Key Merkezi</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
-  body{background:#0a0e14;color:#c9d1d9;padding:28px;line-height:1.5;min-height:100vh}
-  h1{color:#00ff88;font-size:30px;margin-bottom:6px;letter-spacing:-.5px}
-  .sub{color:#7d8590;margin-bottom:28px;font-size:14px}
-  h2{color:#58a6ff;margin:28px 0 10px;font-size:17px;border-bottom:1px solid #21262d;padding-bottom:6px;letter-spacing:.3px}
+  body{background:#0a0e14;color:#c9d1d9;padding:28px;line-height:1.5;min-height:100vh;max-width:1400px;margin:0 auto}
+  h1{color:#00ff88;font-size:32px;margin-bottom:6px;letter-spacing:-.5px}
+  .sub{color:#7d8590;margin-bottom:24px;font-size:14px}
 
-  /* CMD kopyala bloku */
-  .cmd-box{background:#161b22;border:1px solid #00ff8855;border-radius:10px;padding:18px;margin-bottom:24px;box-shadow:0 0 20px #00ff8811}
-  .cmd-title{color:#00ff88;font-weight:700;font-size:13px;letter-spacing:1px;margin-bottom:10px;text-transform:uppercase}
+  /* BUYUK BOLUM BASLIKLARI (2 ana kisim) */
+  .section-header{margin:36px 0 18px;padding:18px 22px;border-radius:12px;background:linear-gradient(135deg,#161b22,#0d1117);border:1px solid #30363d;display:flex;align-items:center;gap:14px}
+  .section-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;flex-shrink:0}
+  .section-num.s1{background:#00ff88;color:#0a0e14}
+  .section-num.s2{background:#58a6ff;color:#0a0e14}
+  .section-info h2{font-size:22px;margin:0;letter-spacing:-.3px}
+  .section-info h2.t1{color:#00ff88}
+  .section-info h2.t2{color:#58a6ff}
+  .section-info p{color:#8b949e;font-size:13px;margin-top:3px}
+
+  h3{color:#7ee787;margin:22px 0 10px;font-size:15px;border-bottom:1px solid #21262d;padding-bottom:6px;letter-spacing:.3px;text-transform:uppercase}
+  h3.cat{color:#58a6ff}
+
+  /* 3 ADIM REHBER */
+  .flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 28px}
+  .flow-step{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px;position:relative}
+  .flow-step::before{content:attr(data-n);position:absolute;top:-12px;left:14px;background:#00ff88;color:#0a0e14;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+  .flow-step h4{color:#f0f6fc;font-size:14px;margin:6px 0 4px}
+  .flow-step p{color:#8b949e;font-size:12px;line-height:1.5}
+  .flow-step code{background:#0d1117;padding:2px 6px;border-radius:3px;font-size:11px;color:#7ee787}
+
+  /* CMD bloku */
+  .cmd-box{background:#161b22;border:1px solid #00ff8855;border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 0 18px #00ff8811}
+  .cmd-title{color:#00ff88;font-weight:700;font-size:12px;letter-spacing:1px;margin-bottom:9px;text-transform:uppercase}
   .cmd-row{display:flex;gap:8px;align-items:stretch}
   .cmd-code{flex:1;background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px 14px;font-family:Consolas,'Courier New',monospace;font-size:13px;color:#f0f6fc;overflow-x:auto;white-space:nowrap}
-  .copy-btn{background:#00ff88;color:#0a0e14;border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s;letter-spacing:.5px}
+  .copy-btn{background:#00ff88;color:#0a0e14;border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:13px;cursor:pointer;transition:all .15s;letter-spacing:.5px;white-space:nowrap}
   .copy-btn:hover{background:#00cc6a;transform:translateY(-1px)}
   .copy-btn:active{transform:translateY(0)}
   .copy-btn.ok{background:#3fb950}
   .cmd-desc{color:#8b949e;font-size:12px;margin-top:8px}
+  .cmd-box.gh{border-color:#58a6ff55;box-shadow:0 0 18px #58a6ff11}
+  .cmd-box.gh .cmd-title{color:#58a6ff}
+  .cmd-box.gh .copy-btn{background:#58a6ff}
+  .cmd-box.gh .copy-btn:hover{background:#4a8fd6}
 
-  /* Anthropic uyari kutusu */
-  .anth{background:#3fb95011;border-left:3px solid #3fb950;border-radius:6px;padding:12px 16px;margin:20px 0;color:#7ee787;font-size:13px}
+  /* Anthropic uyari */
+  .anth{background:#3fb95011;border-left:3px solid #3fb950;border-radius:6px;padding:14px 18px;margin:24px 0 12px;color:#7ee787;font-size:13px}
   .anth strong{color:#3fb950}
 
   /* Provider kart grid */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:11px}
-  .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:13px;display:flex;flex-direction:column;gap:5px;transition:all .15s ease}
-  .card:hover{border-color:#00ff88;background:#1c2128;transform:translateY(-2px);box-shadow:0 4px 12px #00ff8822}
-  .name{color:#f0f6fc;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:7px;transition:all .15s ease}
+  .card:hover{border-color:#00ff88;background:#1c2128;transform:translateY(-2px);box-shadow:0 4px 14px #00ff8822}
+  .name{color:#f0f6fc;font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .name.star::before{content:"★ ";color:#ffd700}
-  .env-key{color:#7d8590;font-family:Consolas,monospace;font-size:10px;font-weight:400}
-  .desc{color:#8b949e;font-size:11.5px;flex:1;margin:2px 0}
+  .env-pill{background:#0d1117;border:1px solid #30363d;border-radius:5px;padding:5px 9px;font-family:Consolas,monospace;font-size:11px;color:#7ee787;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
+  .env-pill code{flex:1;background:transparent;color:#7ee787;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .env-copy{background:#21262d;color:#7ee787;border:1px solid #30363d;border-radius:4px;padding:3px 8px;font-size:10px;cursor:pointer;font-weight:700;letter-spacing:.5px;transition:all .12s;flex-shrink:0}
+  .env-copy:hover{background:#30363d;color:#fff}
+  .env-copy.ok{background:#3fb950;color:#0a0e14;border-color:#3fb950}
+  .desc{color:#8b949e;font-size:12px;flex:1;margin:1px 0 4px}
   .badge{display:inline-block;background:#1f6feb22;color:#58a6ff;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;width:fit-content}
   .badge.free{background:#2ea04322;color:#3fb950}
   .badge.cheap{background:#9c27b022;color:#bc8cff}
   .badge.premium{background:#fd7e1422;color:#ffa657}
-  a.btn{display:block;text-align:center;background:#00ff88;color:#0a0e14;padding:7px 12px;border-radius:5px;text-decoration:none;font-weight:700;font-size:12px;margin-top:6px;transition:background .15s;letter-spacing:.5px}
+  .badge.enterprise{background:#1f6feb22;color:#58a6ff}
+  .badge.opensource{background:#f0883e22;color:#f0883e}
+  .badge.china{background:#da363322;color:#ff7b72}
+  .badge.niche{background:#56d4dd22;color:#56d4dd}
+  a.btn{display:flex;align-items:center;justify-content:center;gap:6px;text-align:center;background:#00ff88;color:#0a0e14;padding:8px 12px;border-radius:5px;text-decoration:none;font-weight:700;font-size:12px;margin-top:4px;transition:background .15s;letter-spacing:.5px}
   a.btn:hover{background:#00cc6a}
+  a.btn::before{content:"🔗"}
   code{background:#21262d;padding:2px 6px;border-radius:4px;font-size:12.5px;color:#f0883e;font-family:Consolas,monospace}
 
-  .footer{margin-top:36px;padding-top:18px;border-top:1px solid #21262d;color:#7d8590;font-size:11px;text-align:center}
+  .footer{margin-top:42px;padding-top:18px;border-top:1px solid #21262d;color:#7d8590;font-size:11px;text-align:center;line-height:1.7}
 </style>
 </head>
 <body>
 
-<h1>🤖 KEY MERKEZI</h1>
-<div class="sub">CMD'yi kopyala → notepad'de .env'i ac → asagidaki kartlardan key al → yapistir → kaydet.</div>
+<h1>🤖 JARVIZ KEY MERKEZI</h1>
+<div class="sub">Iki amac: <strong style="color:#00ff88">1)</strong> CMD komutlarini calistirma, <strong style="color:#58a6ff">2)</strong> Hizli key bulup .env'e yapistirma.</div>
 
-<!-- ============ CMD KOPYALAR BLOK 1 ============ -->
-<div class="cmd-box">
-  <div class="cmd-title">📋 1) .env DOSYASINI AC (KOPYALA → CMD'YE YAPISTIR)</div>
-  <div class="cmd-row">
-    <div class="cmd-code" id="cmd1">notepad %USERPROFILE%\.claude\repos\team\.env</div>
-    <button class="copy-btn" onclick="copyIt('cmd1', this)">KOPYALA</button>
+<!-- 3 ADIM REHBER -->
+<div class="flow">
+  <div class="flow-step" data-n="1">
+    <h4>🔗 SITEYE GIT</h4>
+    <p>Karttan <strong>KEY AL</strong>'a tikla → provider sayfasi acilir → key olustur, kopyala.</p>
   </div>
-  <div class="cmd-desc">Bu komutu CMD'ye yapistirip Enter'a bas — Notepad acilir, key'leri ilgili satirlara yapistir, Ctrl+S ile kaydet.</div>
+  <div class="flow-step" data-n="2">
+    <h4>📋 ENV SATIRINI KOPYALA</h4>
+    <p>Karttaki <code>KEY=</code> kutusunda <strong>KOPYALA</strong>'ya bas → <code>OPENAI_API_KEY=</code> gibi sablon panoya gider.</p>
+  </div>
+  <div class="flow-step" data-n="3">
+    <h4>📝 .env'E YAPISTIR</h4>
+    <p>Asagidaki <strong>CMD 1</strong>'i kopyala → CMD'ye yapistir → notepad acilir → ilgili satira yapistir → Ctrl+S.</p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- KISIM 1: KOMUTLAR -->
+<!-- ============================================================ -->
+<div class="section-header">
+  <div class="section-num s1">1</div>
+  <div class="section-info">
+    <h2 class="t1">🛠️ KOMUTLAR</h2>
+    <p>CMD'ye yapistir, calistir. .env'i ac, test et, ekibi calistir.</p>
+  </div>
+</div>
+
+<div class="cmd-box gh">
+  <div class="cmd-title">📦 GITHUB REPOSITORY (public — sadece referans, key icermez)</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmdGH">https://github.com/Sansar35/claude-agent</div>
+    <button type="button" class="copy-btn" onclick="copyIt('cmdGH', this)">URL KOPYALA</button>
+  </div>
+  <div class="cmd-desc">Bu repo'da .env.example, team.py, INDEX, agents, hooks, settings sablonlari var. <strong>Gercek .env (key'li) commit edilmez</strong> — .gitignore koruyor.</div>
+  <div class="cmd-row" style="margin-top:10px">
+    <div class="cmd-code" id="cmdClone">git clone https://github.com/Sansar35/claude-agent.git</div>
+    <button type="button" class="copy-btn" onclick="copyIt('cmdClone', this)">KLONLA</button>
+  </div>
+  <div class="cmd-desc">Yeni makinede sifirdan kurmak icin: <code>git clone</code> → <code>copy .env .env.local</code> → key'leri yapistir → <code>python test.py</code></div>
+</div>
+
+<div class="cmd-box">
+  <div class="cmd-title">📋 1) .env DOSYASINI AC (KEY YAPISTIRMA)</div>
+  <div class="cmd-row">
+    <div class="cmd-code" id="cmd1">notepad %USERPROFILE%\.claude\repos\team\.env.local</div>
+    <button type="button" class="copy-btn" onclick="copyIt('cmd1', this)">KOPYALA</button>
+  </div>
+  <div class="cmd-desc"><strong>.env.local</strong> dosyasi acilir (gercek key'lerin orada saklanir, .gitignore koruyor). Karttan kopyaladigin <code>KEY=</code> satirini yapistir, sonuna anahtarini ekle, Ctrl+S.</div>
 </div>
 
 <div class="cmd-box">
   <div class="cmd-title">📋 2) AKTIF KEY DURUMUNU GOR</div>
   <div class="cmd-row">
     <div class="cmd-code" id="cmd2">cd %USERPROFILE%\.claude\repos\team &amp;&amp; python test.py</div>
-    <button class="copy-btn" onclick="copyIt('cmd2', this)">KOPYALA</button>
+    <button type="button" class="copy-btn" onclick="copyIt('cmd2', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Hangi key girildi, kac worker aktif olduğunu gosterir.</div>
 </div>
@@ -72,25 +145,25 @@
   <div class="cmd-title">📋 3) PARALELLIK DEMOSU (HEPSI BIR ANDA CALISIYOR MU GOR)</div>
   <div class="cmd-row">
     <div class="cmd-code" id="cmd3">cd %USERPROFILE%\.claude\repos\team &amp;&amp; python demo.py</div>
-    <button class="copy-btn" onclick="copyIt('cmd3', this)">KOPYALA</button>
+    <button type="button" class="copy-btn" onclick="copyIt('cmd3', this)">KOPYALA</button>
   </div>
-  <div class="cmd-desc">Her ajan kisa soruyu cevaplar, BASLAMA/BITME zamanlarini ASCII bar grafiginde gosterir. Paralelligi gozle gorursun.</div>
+  <div class="cmd-desc">Her ajan kisa soruyu cevaplar, BASLAMA/BITME zamanlarini ASCII bar grafiginde gosterir.</div>
 </div>
 
 <div class="cmd-box">
   <div class="cmd-title">📋 4) VERIFY — KEY'LERIN GERCEK ISTEK ATTIGINI KANITLA</div>
   <div class="cmd-row">
     <div class="cmd-code" id="cmd4">chcp 65001 &amp;&amp; cd /d %USERPROFILE%\.claude\repos\team &amp;&amp; python verify.py</div>
-    <button class="copy-btn" onclick="copyIt('cmd4', this)">KOPYALA</button>
+    <button type="button" class="copy-btn" onclick="copyIt('cmd4', this)">KOPYALA</button>
   </div>
-  <div class="cmd-desc">Her aktif ajana 1 saniyelik 'pong' istegi atar. Hangi endpoint, latency, token sayisi gosterir. Latency &gt; 0 + token gelirse = istek GERCEKTEN gitti, ajan GERCEKTEN aktif.</div>
+  <div class="cmd-desc">Her aktif ajana 1 saniyelik 'pong' istegi atar. Latency &gt; 0 + token gelirse = gercekten aktif.</div>
 </div>
 
 <div class="cmd-box">
   <div class="cmd-title">📋 5) TUM EKIBI CALISTIR (PARALEL URETIM)</div>
   <div class="cmd-row">
     <div class="cmd-code" id="cmd5">chcp 65001 &amp;&amp; cd /d %USERPROFILE%\.claude\repos\team &amp;&amp; python team.py "FastAPI ile JWT login API yaz"</div>
-    <button class="copy-btn" onclick="copyIt('cmd5', this)">KOPYALA</button>
+    <button type="button" class="copy-btn" onclick="copyIt('cmd5', this)">KOPYALA</button>
   </div>
   <div class="cmd-desc">Lider Opus plan yapar → tum AI'lar paralel kod yazar → Lider sentezler.</div>
 </div>
@@ -99,128 +172,473 @@
   ✅ <strong>Anthropic / Claude key girme</strong> — Claude Max aboneligin var, sistem <code>claude-agent-sdk</code> uzerinden Opus + Sonnet + Haiku'yu otomatik kullanir.
 </div>
 
-<!-- ============ KARTLAR ============ -->
-<h2>★ Ana Tavsiye — 1 Key = 7 Model</h2>
+<!-- ============================================================ -->
+<!-- KISIM 2: KEY KARTLARI -->
+<!-- ============================================================ -->
+<div class="section-header">
+  <div class="section-num s2">2</div>
+  <div class="section-info">
+    <h2 class="t2">🔑 KEY MERKEZI</h2>
+    <p>Karttan <strong>KEY AL</strong> → siteden anahtari kopyala → karttaki <strong>KOPYALA</strong>'dan ENV satirini al → CMD 1 ile .env.local'a yapistir.</p>
+  </div>
+</div>
+
+<h3 class="cat">★ Ana Tavsiye — 1 Key = 7 Model</h3>
 <div class="grid">
   <div class="card">
-    <div class="name star">OpenRouter <span class="env-key">OPENROUTER_API_KEY</span></div>
+    <div class="name star">OpenRouter</div>
     <div class="desc">Tek key ile GPT-5, Gemini 2.5, DeepSeek, Llama 3.3, Qwen, Mistral, Grok 3 — hepsi acilir. En pratik.</div>
     <span class="badge">300+ MODEL</span>
-    <a class="btn" href="https://openrouter.ai/keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>OPENROUTER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OPENROUTER_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://openrouter.ai/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
 
-<h2>🟢 Bedava Katmani Olanlar</h2>
+<h3 class="cat">🟢 Bedava Katmani Olanlar</h3>
 <div class="grid">
   <div class="card">
-    <div class="name">Groq <span class="env-key">GROQ_API_KEY</span></div>
+    <div class="name">Groq</div>
     <div class="desc">Llama 3.3 saniyede 800+ token. Cok hizli. Genis bedava katman.</div>
     <span class="badge free">BEDAVA</span>
-    <a class="btn" href="https://console.groq.com/keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>GROQ_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GROQ_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.groq.com/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Google AI Studio <span class="env-key">GEMINI_API_KEY</span></div>
+    <div class="name">Google AI Studio</div>
     <div class="desc">Gemini 2.5 Pro + Flash. 1500 istek/gun bedava. Multimodal (resim/video).</div>
     <span class="badge free">1500/GUN</span>
-    <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>GEMINI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GEMINI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Cerebras <span class="env-key">CEREBRAS_API_KEY</span></div>
+    <div class="name">Cerebras</div>
     <div class="desc">Llama 3.3 saniyede 2000+ token. Dunyanin en hizli inference'i.</div>
     <span class="badge free">ULTRA HIZLI</span>
-    <a class="btn" href="https://cloud.cerebras.ai/platform" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>CEREBRAS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'CEREBRAS_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://cloud.cerebras.ai/platform" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Mistral AI <span class="env-key">MISTRAL_API_KEY</span></div>
+    <div class="name">Mistral AI</div>
     <div class="desc">Mistral Large + Codestral. La Plateforme'da deneme krediler.</div>
     <span class="badge free">DENEME</span>
-    <a class="btn" href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>MISTRAL_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MISTRAL_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">HuggingFace <span class="env-key">HUGGINGFACE_API_KEY</span></div>
-    <div class="desc">Inference API ile Llama, Qwen, Mistral. Acik kaynak hub.</div>
-    <span class="badge free">INFERENCE API</span>
-    <a class="btn" href="https://huggingface.co/settings/tokens" target="_blank" rel="noopener">Token Al →</a>
-  </div>
-  <div class="card">
-    <div class="name">NVIDIA NIM <span class="env-key">NVIDIA_API_KEY</span></div>
+    <div class="name">NVIDIA NIM</div>
     <div class="desc">Nemotron 70B + Llama. Aylik 1000 bedava cagri.</div>
     <span class="badge free">1000/AY</span>
-    <a class="btn" href="https://build.nvidia.com/explore/discover" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>NVIDIA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NVIDIA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://build.nvidia.com/explore/discover" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Together AI <span class="env-key">TOGETHER_API_KEY</span></div>
+    <div class="name">Together AI</div>
     <div class="desc">Llama 3.3 Turbo + 100+ acik model. $1 baslangic kredi.</div>
     <span class="badge free">$1 KREDI</span>
-    <a class="btn" href="https://api.together.ai/settings/api-keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>TOGETHER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'TOGETHER_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://api.together.ai/settings/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">SambaNova</div>
+    <div class="desc">Llama 3.3 70B saniyede 500+ token. RDU mimarisi.</div>
+    <span class="badge free">HIZLI LLAMA</span>
+    <div class="env-pill"><code>SAMBANOVA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SAMBANOVA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://cloud.sambanova.ai/apis" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
 
-<h2>🟣 Ucuz / Kaliteli</h2>
+<h3 class="cat">🟣 Ucuz / Kaliteli</h3>
 <div class="grid">
   <div class="card">
-    <div class="name">DeepSeek <span class="env-key">DEEPSEEK_API_KEY</span></div>
+    <div class="name">DeepSeek</div>
     <div class="desc">DeepSeek V3.2 / R2. Kod kalitesi yuksek, fiyat dusuk. Reasoning icin ideal.</div>
     <span class="badge cheap">UCUZ</span>
-    <a class="btn" href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>DEEPSEEK_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DEEPSEEK_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Fireworks AI <span class="env-key">FIREWORKS_API_KEY</span></div>
+    <div class="name">Fireworks AI</div>
     <div class="desc">Llama 3.3 70B production-grade inference. Hizli + ucuz.</div>
     <span class="badge cheap">PRODUCTION</span>
-    <a class="btn" href="https://fireworks.ai/api-keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>FIREWORKS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FIREWORKS_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://fireworks.ai/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">DeepInfra <span class="env-key">DEEPINFRA_API_KEY</span></div>
+    <div class="name">DeepInfra</div>
     <div class="desc">Tum acik kaynak modeller (Llama, Mistral, DeepSeek, Qwen). Pay-per-use.</div>
     <span class="badge cheap">OPEN SOURCE</span>
-    <a class="btn" href="https://deepinfra.com/dash/api_keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>DEEPINFRA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DEEPINFRA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://deepinfra.com/dash/api_keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Cohere <span class="env-key">COHERE_API_KEY</span></div>
+    <div class="name">Cohere</div>
     <div class="desc">Command R+ — RAG / agentic tooling icin optimize. Trial katman var.</div>
     <span class="badge cheap">RAG</span>
-    <a class="btn" href="https://dashboard.cohere.com/api-keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>COHERE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'COHERE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://dashboard.cohere.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">Perplexity <span class="env-key">PERPLEXITY_API_KEY</span></div>
-    <div class="desc">Sonar Pro — canli web bilgisiyle cevap. Arastirma icin guzel.</div>
-    <span class="badge cheap">WEB</span>
-    <a class="btn" href="https://www.perplexity.ai/account/api/keys" target="_blank" rel="noopener">Key Al →</a>
-  </div>
-  <div class="card">
-    <div class="name">Hyperbolic <span class="env-key">HYPERBOLIC_API_KEY</span></div>
+    <div class="name">Hyperbolic</div>
     <div class="desc">Llama 3.1 70B + FLUX (gorsel). Decentralized GPU.</div>
     <span class="badge cheap">LLAMA+FLUX</span>
-    <a class="btn" href="https://app.hyperbolic.xyz/settings" target="_blank" rel="noopener">Key Al →</a>
-  </div>
-  <div class="card">
-    <div class="name">SambaNova <span class="env-key">SAMBANOVA_API_KEY</span></div>
-    <div class="desc">Llama 3.3 70B saniyede 500+ token. RDU mimarisi.</div>
-    <span class="badge cheap">HIZLI LLAMA</span>
-    <a class="btn" href="https://cloud.sambanova.ai/apis" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>HYPERBOLIC_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'HYPERBOLIC_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://app.hyperbolic.xyz/settings" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
 
-<h2>🟠 Premium</h2>
+<h3 class="cat">🟠 Premium</h3>
 <div class="grid">
   <div class="card">
-    <div class="name">OpenAI <span class="env-key">OPENAI_API_KEY</span></div>
+    <div class="name">OpenAI</div>
     <div class="desc">GPT-5 / o3 direkt. En guclu kapali kaynak modeller.</div>
     <span class="badge premium">GPT-5</span>
-    <a class="btn" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>OPENAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OPENAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
-    <div class="name">xAI <span class="env-key">XAI_API_KEY</span></div>
+    <div class="name">xAI</div>
     <div class="desc">Grok 3 / Grok 3 Mini. X.com gercek-zamanli verisiyle entegre.</div>
     <span class="badge premium">GROK 3</span>
-    <a class="btn" href="https://console.x.ai" target="_blank" rel="noopener">Key Al →</a>
+    <div class="env-pill"><code>XAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'XAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.x.ai" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Writer</div>
+    <div class="desc">Palmyra X 004 — kurumsal yazim icin optimize. Marka tonu.</div>
+    <span class="badge premium">PALMYRA</span>
+    <div class="env-pill"><code>WRITER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'WRITER_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://app.writer.com/aistudio/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">AI21 Labs</div>
+    <div class="desc">Jamba 1.5 Large — Mamba+Transformer hibrit. 256K context.</div>
+    <span class="badge premium">JAMBA</span>
+    <div class="env-pill"><code>AI21_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AI21_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://studio.ai21.com/account/api-key" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Aleph Alpha</div>
+    <div class="desc">Luminous Supreme — Avrupa GDPR uyumlu, multilingual.</div>
+    <span class="badge premium">EU</span>
+    <div class="env-pill"><code>ALEPH_ALPHA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ALEPH_ALPHA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://app.aleph-alpha.com" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Inflection AI</div>
+    <div class="desc">Pi 3.0 — empati odakli sohbet, yumusak ton.</div>
+    <span class="badge premium">PI 3.0</span>
+    <div class="env-pill"><code>INFLECTION_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'INFLECTION_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://inflection.ai/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+</div>
+
+<h3 class="cat">🔵 Enterprise / Cloud</h3>
+<div class="grid">
+  <div class="card">
+    <div class="name">Azure OpenAI</div>
+    <div class="desc">GPT-5/o3 Microsoft Azure altinda. Endpoint + deployment kurma gerek.</div>
+    <span class="badge enterprise">MICROSOFT</span>
+    <div class="env-pill"><code>AZURE_OPENAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AZURE_OPENAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://portal.azure.com" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">AWS Bedrock</div>
+    <div class="desc">Claude/Llama/Mistral/Cohere/Titan AWS uzerinden. IAM + region.</div>
+    <span class="badge enterprise">AWS</span>
+    <div class="env-pill"><code>AWS_BEDROCK_ACCESS_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AWS_BEDROCK_ACCESS_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.aws.amazon.com/bedrock" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">Google Vertex AI</div>
+    <div class="desc">Gemini 2.5 + Claude on Vertex + Llama. GCP project + service account.</div>
+    <span class="badge enterprise">GCP</span>
+    <div class="env-pill"><code>VERTEX_AI_PROJECT_ID=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VERTEX_AI_PROJECT_ID=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.cloud.google.com/vertex-ai" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">IBM WatsonX</div>
+    <div class="desc">Granite 3 + Llama/Mistral. Kurumsal yonetisim, audit log.</div>
+    <span class="badge enterprise">IBM</span>
+    <div class="env-pill"><code>WATSONX_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'WATSONX_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.ibm.com/products/watsonx-ai" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">Databricks</div>
+    <div class="desc">DBRX + Llama serving endpoints. Workspace + model serving.</div>
+    <span class="badge enterprise">DBRX</span>
+    <div class="env-pill"><code>DATABRICKS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DATABRICKS_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://docs.databricks.com/api/workspace" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">Snowflake Cortex</div>
+    <div class="desc">SQL'den dogrudan LLM cagri. Veri ambari icinden inference.</div>
+    <span class="badge enterprise">SQL+LLM</span>
+    <div class="env-pill"><code>SNOWFLAKE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SNOWFLAKE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex" target="_blank" rel="noopener">SETUP</a>
+  </div>
+  <div class="card">
+    <div class="name">Vercel AI Gateway</div>
+    <div class="desc">Multi-provider proxy. Caching + rate limit + observability.</div>
+    <span class="badge enterprise">PROXY</span>
+    <div class="env-pill"><code>VERCEL_AI_GATEWAY_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VERCEL_AI_GATEWAY_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://vercel.com/docs/ai-gateway" target="_blank" rel="noopener">SETUP</a>
+  </div>
+</div>
+
+<h3 class="cat">🟡 Acik-Kaynak Host (Llama / Qwen / DeepSeek / Mixtral)</h3>
+<div class="grid">
+  <div class="card">
+    <div class="name">Replicate</div>
+    <div class="desc">Llama, FLUX, MusicGen, Stable Diffusion. Pay-per-second.</div>
+    <span class="badge opensource">LLAMA+FLUX</span>
+    <div class="env-pill"><code>REPLICATE_API_TOKEN=</code><button type="button" class="env-copy" onclick="copyEnv(this,'REPLICATE_API_TOKEN=')">KOPYALA</button></div>
+    <a class="btn" href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">AnyScale</div>
+    <div class="desc">Ray uzerinde Llama 3.1 70B/405B + Mixtral. Production-grade.</div>
+    <span class="badge opensource">RAY</span>
+    <div class="env-pill"><code>ANYSCALE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ANYSCALE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://app.endpoints.anyscale.com" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Baseten</div>
+    <div class="desc">Custom open-source model serving. Truss framework ile deploy.</div>
+    <span class="badge opensource">TRUSS</span>
+    <div class="env-pill"><code>BASETEN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BASETEN_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.baseten.co/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">OctoAI</div>
+    <div class="desc">Llama 3.1 + Mixtral 8x22B. NVIDIA tarafindan satin alindi.</div>
+    <span class="badge opensource">NVIDIA</span>
+    <div class="env-pill"><code>OCTOAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OCTOAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://octoai.cloud/settings" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Lepton AI</div>
+    <div class="desc">Llama 3.3 70B serverless. Hizli soguk-baslatma.</div>
+    <span class="badge opensource">SERVERLESS</span>
+    <div class="env-pill"><code>LEPTON_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LEPTON_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.lepton.ai/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">SiliconFlow</div>
+    <div class="desc">DeepSeek V3 + Qwen + Llama 405B + Yi. Cin tabanli OS cloud.</div>
+    <span class="badge opensource">DSV3+QWEN</span>
+    <div class="env-pill"><code>SILICONFLOW_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SILICONFLOW_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://cloud.siliconflow.cn/account/ak" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Novita AI</div>
+    <div class="desc">Llama 3.3 + Qwen + DeepSeek + image gen. Cok ucuz.</div>
+    <span class="badge opensource">UCUZ</span>
+    <div class="env-pill"><code>NOVITA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NOVITA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://novita.ai/dashboard/key" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Kluster AI</div>
+    <div class="desc">Llama 3.3 70B distributed compute. Ucuz batch.</div>
+    <span class="badge opensource">DISTRIBUTED</span>
+    <div class="env-pill"><code>KLUSTER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'KLUSTER_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.kluster.ai/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Lambda Labs</div>
+    <div class="desc">Llama 3.3 70B FP8 + 405B. GPU bulutu lider.</div>
+    <span class="badge opensource">GPU</span>
+    <div class="env-pill"><code>LAMBDALABS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LAMBDALABS_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://cloud.lambdalabs.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Friendli AI</div>
+    <div class="desc">Llama 3.3 70B + Mixtral 8x22B. Endpoints API.</div>
+    <span class="badge opensource">FRIENDLI</span>
+    <div class="env-pill"><code>FRIENDLI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FRIENDLI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://suite.friendli.ai/personal-settings/tokens" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">AIMLAPI</div>
+    <div class="desc">200+ model proxy. GPT-4o, Llama, DeepSeek tek endpoint.</div>
+    <span class="badge opensource">PROXY 200+</span>
+    <div class="env-pill"><code>AIMLAPI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AIMLAPI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://aimlapi.com/app/keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">NScale</div>
+    <div class="desc">Llama 3.3 70B Avrupa GPU bulutu. Sustainable compute.</div>
+    <span class="badge opensource">EU GPU</span>
+    <div class="env-pill"><code>NSCALE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NSCALE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://nscale.ai/dashboard" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">NetMind</div>
+    <div class="desc">Llama 3.3 70B decentralized GPU network.</div>
+    <span class="badge opensource">DECENTRAL</span>
+    <div class="env-pill"><code>NETMIND_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NETMIND_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.netmind.ai/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Featherless</div>
+    <div class="desc">HuggingFace'deki HER modeli sunar. Subscription model.</div>
+    <span class="badge opensource">ANY HF</span>
+    <div class="env-pill"><code>FEATHERLESS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FEATHERLESS_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://featherless.ai/account" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Targon</div>
+    <div class="desc">Llama 3.3 70B Bittensor uzerinde merkezsiz inference.</div>
+    <span class="badge opensource">BITTENSOR</span>
+    <div class="env-pill"><code>TARGON_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'TARGON_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://targon.com/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Latitude AI</div>
+    <div class="desc">Open-source LLM hosting + prompt engineering platformu.</div>
+    <span class="badge opensource">PROMPT</span>
+    <div class="env-pill"><code>LATITUDE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LATITUDE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://latitude.so/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Inference.net</div>
+    <div class="desc">Llama 3.1 70B serverless OpenAI-compat endpoint.</div>
+    <span class="badge opensource">SERVERLESS</span>
+    <div class="env-pill"><code>INFERENCE_NET_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'INFERENCE_NET_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://inference.net/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">GooseAI</div>
+    <div class="desc">GPT-NeoX, Fairseq open model API. NLP focus.</div>
+    <span class="badge opensource">NLP</span>
+    <div class="env-pill"><code>GOOSEAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GOOSEAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://goose.ai/" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+</div>
+
+<h3 class="cat">🔴 Cin Saglayicilari (Qwen / GLM / Kimi / Yi / ERNIE)</h3>
+<div class="grid">
+  <div class="card">
+    <div class="name">Zhipu AI</div>
+    <div class="desc">GLM-4 Plus / Air / Flash. Akademik kokenli, Tsinghua.</div>
+    <span class="badge china">GLM-4</span>
+    <div class="env-pill"><code>ZHIPU_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ZHIPU_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://open.bigmodel.cn/usercenter/apikeys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Moonshot (Kimi)</div>
+    <div class="desc">Kimi K2 / v1 — 128K/32K context. Uzun belge analiz.</div>
+    <span class="badge china">KIMI</span>
+    <div class="env-pill"><code>MOONSHOT_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MOONSHOT_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.moonshot.cn/console/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Yi (01.AI)</div>
+    <div class="desc">Yi-Large / Yi-Lightning. Kai-Fu Lee'nin sirketi.</div>
+    <span class="badge china">YI</span>
+    <div class="env-pill"><code>YI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'YI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.lingyiwanwu.com/apikeys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Baichuan</div>
+    <div class="desc">Baichuan 4 — multilingual cinli model.</div>
+    <span class="badge china">BAICHUAN</span>
+    <div class="env-pill"><code>BAICHUAN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAICHUAN_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.baichuan-ai.com/console/apikey" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Alibaba Qwen</div>
+    <div class="desc">Qwen-Max / Plus / Turbo. Dashscope (Aliyun) endpoint.</div>
+    <span class="badge china">QWEN</span>
+    <div class="env-pill"><code>DASHSCOPE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DASHSCOPE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://dashscope.console.aliyun.com/apiKey" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Baidu ERNIE</div>
+    <div class="desc">Wenxin Yiyan (ERNIE 4.0). Baidu Qianfan platform.</div>
+    <span class="badge china">ERNIE</span>
+    <div class="env-pill"><code>BAIDU_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAIDU_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.bce.baidu.com/qianfan" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">SenseNova</div>
+    <div class="desc">SenseTime'in LLM platformu. Vision + text.</div>
+    <span class="badge china">SENSETIME</span>
+    <div class="env-pill"><code>SENSENOVA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SENSENOVA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.sensenova.cn/apikey" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">MiniMax</div>
+    <div class="desc">abab6.5 — uzun context, role-play, multimodal.</div>
+    <span class="badge china">ABAB6.5</span>
+    <div class="env-pill"><code>MINIMAX_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MINIMAX_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://platform.minimaxi.com/user-center/basic-information/interface-key" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">iFlytek Spark</div>
+    <div class="desc">Spark 4.0 Ultra — sesli + cok dilli. Egitim odakli.</div>
+    <span class="badge china">SPARK 4.0</span>
+    <div class="env-pill"><code>SPARK_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SPARK_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.xfyun.cn/services/cbm" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Volcengine (Doubao)</div>
+    <div class="desc">ByteDance Doubao Pro 256K / Lite. Cok ucuz, hizli.</div>
+    <span class="badge china">DOUBAO</span>
+    <div class="env-pill"><code>VOLCENGINE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VOLCENGINE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.volcengine.com/ark" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Tencent Hunyuan</div>
+    <div class="desc">Hunyuan Pro — Tencent ekosistem icin optimize.</div>
+    <span class="badge china">HUNYUAN</span>
+    <div class="env-pill"><code>HUNYUAN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'HUNYUAN_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://console.cloud.tencent.com/hunyuan/api-key" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+</div>
+
+<h3 class="cat">🔷 Embeddings / Niche</h3>
+<div class="grid">
+  <div class="card">
+    <div class="name">Voyage AI</div>
+    <div class="desc">En kaliteli embeddings + reranker. RAG icin Anthropic'in tavsiyesi.</div>
+    <span class="badge niche">EMBEDDING</span>
+    <div class="env-pill"><code>VOYAGE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VOYAGE_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://dash.voyageai.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Jina AI</div>
+    <div class="desc">Embeddings + reranker + reader. Multilingual + multimodal.</div>
+    <span class="badge niche">EMBED+READ</span>
+    <div class="env-pill"><code>JINA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'JINA_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://jina.ai/?sui=apikey" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">BAAI</div>
+    <div class="desc">BGE embeddings (acik kaynak lider). MTEB benchmark zirvesi.</div>
+    <span class="badge niche">BGE</span>
+    <div class="env-pill"><code>BAAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAAI_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://www.baai.ac.cn/english.html" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">NLPCloud</div>
+    <div class="desc">NER, sentiment, summarization, translate. Klasik NLP.</div>
+    <span class="badge niche">NLP</span>
+    <div class="env-pill"><code>NLPCLOUD_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NLPCLOUD_API_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://nlpcloud.com/home/token" target="_blank" rel="noopener">KEY AL</a>
+  </div>
+  <div class="card">
+    <div class="name">Character.AI</div>
+    <div class="desc">Persona-bazli sohbet. Karakter rolleri icin optimize.</div>
+    <span class="badge niche">PERSONA</span>
+    <div class="env-pill"><code>CHARACTER_AI_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'CHARACTER_AI_KEY=')">KOPYALA</button></div>
+    <a class="btn" href="https://character.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
 
 <div class="footer">
-  Dosya: <code>%USERPROFILE%\.claude\key.html</code> — cift tikla, tarayicida acilir.<br>
-  Sistem: <code>%USERPROFILE%\.claude\repos\team\</code>
+  <strong>Dosya:</strong> <code>%USERPROFILE%\.claude\key.html</code> — cift tikla, tarayicida acilir<br>
+  <strong>Sistem:</strong> <code>%USERPROFILE%\.claude\repos\team\</code> — toplam <strong>50+ provider, 60+ model destegi</strong><br>
+  <strong>GitHub:</strong> <a href="https://github.com/Sansar35/claude-agent" target="_blank" rel="noopener" style="color:#58a6ff">github.com/Sansar35/claude-agent</a>
 </div>
 
 <script>
@@ -234,8 +652,7 @@ function copyIt(id, btn){
       btn.innerText = original;
       btn.classList.remove("ok");
     }, 1500);
-  }).catch(err=>{
-    // Fallback
+  }).catch(()=>{
     const range = document.createRange();
     range.selectNode(document.getElementById(id));
     window.getSelection().removeAllRanges();
@@ -243,6 +660,27 @@ function copyIt(id, btn){
     document.execCommand("copy");
     btn.innerText = "✓ KOPYALANDI";
     setTimeout(()=>btn.innerText="KOPYALA", 1500);
+  });
+}
+
+function copyEnv(btn, text){
+  navigator.clipboard.writeText(text).then(()=>{
+    const original = btn.innerText;
+    btn.innerText = "✓ OK";
+    btn.classList.add("ok");
+    setTimeout(()=>{
+      btn.innerText = original;
+      btn.classList.remove("ok");
+    }, 1200);
+  }).catch(()=>{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    btn.innerText = "✓ OK";
+    setTimeout(()=>btn.innerText="KOPYALA", 1200);
   });
 }
 </script>
