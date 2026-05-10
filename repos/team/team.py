@@ -62,11 +62,6 @@ PROVIDER_URLS = {
     "nvidia_nim/":      "https://integrate.api.nvidia.com/v1/chat/completions",
     "deepinfra/":       "https://api.deepinfra.com/v1/openai/chat/completions",
     "openrouter/":      "https://openrouter.ai/api/v1/chat/completions",
-    "anthropic/":       "https://api.anthropic.com/v1/messages",
-    "huggingface/":     "https://api-inference.huggingface.co/models",
-    "perplexity/":      "https://api.perplexity.ai/chat/completions",
-    "cloudflare/":      "https://api.cloudflare.com/client/v4/accounts/<id>/ai/run/<model>",
-    "github/":          "https://models.inference.ai.azure.com/chat/completions",
     "azure/":           "https://<azure-endpoint>/openai/deployments/<model>/chat/completions",
     "bedrock/":         "https://bedrock-runtime.<region>.amazonaws.com/model/<id>/invoke",
     "vertex_ai/":       "https://<region>-aiplatform.googleapis.com/v1/projects/<project>/locations/<region>/publishers",
@@ -88,15 +83,6 @@ PROVIDER_URLS = {
     "featherless_ai/":  "https://api.featherless.ai/v1/chat/completions",
     "netmind/":         "https://api.netmind.ai/v1/chat/completions",
     # Cin saglayicilari
-    "zhipu/":           "https://open.bigmodel.cn/api/paas/v4/chat/completions",
-    "moonshot/":        "https://api.moonshot.cn/v1/chat/completions",
-    "yi/":              "https://api.lingyiwanwu.com/v1/chat/completions",
-    "baichuan/":        "https://api.baichuan-ai.com/v1/chat/completions",
-    "qwen/":            "https://dashscope-intl.aliyuncs.com/compatible-mode/v1/chat/completions",
-    "dashscope/":       "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
-    "minimax/":         "https://api.minimax.chat/v1/text/chatcompletion_v2",
-    "volcengine/":      "https://ark.cn-beijing.volces.com/api/v3/chat/completions",
-    "hunyuan/":         "https://hunyuan.tencentcloudapi.com",
     # Niche
     "ai21/":            "https://api.ai21.com/studio/v1/chat/completions",
     "writer/":          "https://api.writer.com/v1/chat",
@@ -122,7 +108,6 @@ def _log_event(event: dict):
 def _vprint(line: str):
     if VERBOSE:
         print(line, flush=True)
-
 
 # =====================================================================
 # ANTHROPIC KATMANI (subscription, key gerekmez)
@@ -162,7 +147,6 @@ async def claude_call(prompt: str, model: str = "claude-opus-4-7", system: str =
         _log_event({"ts": time.time(), "phase": "response", "model": model, "url": url,
                     "ok": False, "error": str(e), "duration_s": round(dt, 2)})
         return f"[HATA {model}: {e}]"
-
 
 # =====================================================================
 # DIGER AI KATMANI (LiteLLM, key ile)
@@ -208,13 +192,11 @@ async def litellm_call(model: str, prompt: str, api_key: str, system: str = "") 
                     "ok": False, "error": f"{type(e).__name__}: {str(e)[:200]}", "duration_s": round(dt, 2)})
         return f"[HATA {model}: {e}]"
 
-
 # =====================================================================
 # EKIP HAVUZU
 # =====================================================================
 def _key(env_name: str) -> str:
     return os.environ.get(env_name, "").strip()
-
 
 def build_workers(mode: str = "heavy") -> list[dict]:
     """Hangi key'ler girildiyse o ajanlar aktive olur.
@@ -364,31 +346,6 @@ def build_workers(mode: str = "heavy") -> list[dict]:
         ("DEEPINFRA_API_KEY",   "deepinfra/Qwen/Qwen2.5-72B-Instruct",                               "deepinfra-qwen72",   "DeepInfra Qwen 2.5 72B"),
         ("DEEPINFRA_API_KEY",   "deepinfra/mistralai/Mixtral-8x22B-Instruct-v0.1",                   "deepinfra-mixtral",  "DeepInfra Mixtral 8x22B"),
 
-        # ---------- HuggingFace Inference (3 ajan) ----------
-        ("HUGGINGFACE_API_KEY", "huggingface/meta-llama/Llama-3.3-70B-Instruct",                     "hf-llama33",         "HF Llama 3.3 70B"),
-        ("HUGGINGFACE_API_KEY", "huggingface/Qwen/Qwen2.5-72B-Instruct",                             "hf-qwen72",          "HF Qwen 2.5 72B"),
-        ("HUGGINGFACE_API_KEY", "huggingface/deepseek-ai/DeepSeek-V3",                               "hf-dsv3",            "HF DeepSeek V3"),
-
-        # ---------- Perplexity (3 ajan) ----------
-        ("PERPLEXITY_API_KEY",  "perplexity/sonar-pro",                                              "pplx-pro",           "Perplexity Sonar Pro (web)"),
-        ("PERPLEXITY_API_KEY",  "perplexity/sonar",                                                  "pplx-sonar",         "Perplexity Sonar"),
-        ("PERPLEXITY_API_KEY",  "perplexity/sonar-reasoning",                                        "pplx-reason",        "Perplexity Sonar Reasoning"),
-
-        # ---------- Cloudflare Workers AI (3 ajan) ----------
-        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/meta/llama-3.3-70b-instruct",                        "cf-llama33",         "Cloudflare Llama 3.3 70B"),
-        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/mistral/mistral-7b-instruct-v0.2",                   "cf-mistral7b",       "Cloudflare Mistral 7B"),
-        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/google/gemma-7b-it",                                 "cf-gemma7b",         "Cloudflare Gemma 7B"),
-
-        # ---------- GitHub Models (3 ajan — bedava abonelikle) ----------
-        ("GITHUB_TOKEN",        "github/gpt-4o",                                                     "gh-gpt4o",           "GitHub Models GPT-4o"),
-        ("GITHUB_TOKEN",        "github/Meta-Llama-3.1-405B-Instruct",                               "gh-llama405",        "GitHub Models Llama 3.1 405B"),
-        ("GITHUB_TOKEN",        "github/Mistral-large",                                              "gh-mistral",         "GitHub Models Mistral Large"),
-
-        # ---------- Anthropic Direkt API (Claude Max abonelik varsa GEREKMEZ) ----------
-        ("ANTHROPIC_API_KEY",   "anthropic/claude-opus-4-7",                                         "anth-opus47",        "Anthropic Claude Opus 4.7 (direkt API)"),
-        ("ANTHROPIC_API_KEY",   "anthropic/claude-sonnet-4-6",                                       "anth-sonnet46",      "Anthropic Claude Sonnet 4.6"),
-        ("ANTHROPIC_API_KEY",   "anthropic/claude-haiku-4-5",                                        "anth-haiku45",       "Anthropic Claude Haiku 4.5"),
-
         # ---------- AWS Bedrock (4 ajan) — Claude/Llama/Mistral/Cohere ----------
         ("AWS_BEDROCK_ACCESS_KEY", "bedrock/anthropic.claude-opus-4-7-20251201-v1:0",                "bedrock-opus",       "Bedrock Claude Opus 4.7"),
         ("AWS_BEDROCK_ACCESS_KEY", "bedrock/meta.llama3-3-70b-instruct-v1:0",                        "bedrock-llama33",    "Bedrock Llama 3.3 70B"),
@@ -461,32 +418,6 @@ def build_workers(mode: str = "heavy") -> list[dict]:
         ("TARGON_API_KEY",         "openai/llama-3.3-70b",                                           "tar-llama33",        "Targon Llama 3.3 70B"),
         ("INFERENCE_NET_API_KEY",  "openai/meta-llama/Meta-Llama-3.1-70B-Instruct",                  "inf-llama70",        "Inference.net Llama 3.1 70B"),
 
-        # ---------- CIN SAGLAYICILARI ----------
-        # Zhipu AI (GLM-4 ailesi)
-        ("ZHIPU_API_KEY",          "zhipu/glm-4-plus",                                               "zhipu-glm4plus",     "Zhipu GLM-4 Plus"),
-        ("ZHIPU_API_KEY",          "zhipu/glm-4-air",                                                "zhipu-glm4air",      "Zhipu GLM-4 Air"),
-        ("ZHIPU_API_KEY",          "zhipu/glm-4-flash",                                              "zhipu-glm4flash",    "Zhipu GLM-4 Flash"),
-        # Moonshot (Kimi)
-        ("MOONSHOT_API_KEY",       "moonshot/moonshot-v1-128k",                                      "kimi-128k",          "Moonshot Kimi v1 128K"),
-        ("MOONSHOT_API_KEY",       "moonshot/moonshot-v1-32k",                                       "kimi-32k",           "Moonshot Kimi v1 32K"),
-        # Yi (01.AI)
-        ("YI_API_KEY",             "yi/yi-large",                                                    "yi-large",           "Yi Large (01.AI)"),
-        ("YI_API_KEY",             "yi/yi-lightning",                                                "yi-lightning",       "Yi Lightning"),
-        # Baichuan
-        ("BAICHUAN_API_KEY",       "baichuan/Baichuan4",                                             "baichuan4",          "Baichuan 4"),
-        # Alibaba Qwen (Dashscope)
-        ("DASHSCOPE_API_KEY",      "dashscope/qwen-max",                                             "qwen-max",           "Alibaba Qwen-Max"),
-        ("DASHSCOPE_API_KEY",      "dashscope/qwen-plus",                                            "qwen-plus",          "Alibaba Qwen-Plus"),
-        ("DASHSCOPE_API_KEY",      "dashscope/qwen-turbo",                                           "qwen-turbo",         "Alibaba Qwen-Turbo"),
-        ("QIANWEN_API_KEY",        "qwen/qwen-max",                                                  "qianwen-max",        "Qianwen Max (alt key)"),
-        # MiniMax
-        ("MINIMAX_API_KEY",        "minimax/abab6.5-chat",                                           "minimax-65",         "MiniMax abab6.5"),
-        # Volcengine (ByteDance Doubao)
-        ("VOLCENGINE_API_KEY",     "volcengine/doubao-pro-256k",                                     "doubao-pro",         "Volcengine Doubao Pro 256K"),
-        ("VOLCENGINE_API_KEY",     "volcengine/doubao-lite-128k",                                    "doubao-lite",        "Volcengine Doubao Lite 128K"),
-        # Hunyuan (Tencent)
-        ("HUNYUAN_API_KEY",        "hunyuan/hunyuan-pro",                                            "hunyuan-pro",        "Tencent Hunyuan Pro"),
-
         # ---------- NICHE / OZEL ----------
         ("AI21_API_KEY",           "ai21/jamba-1.5-large",                                           "ai21-jamba",         "AI21 Jamba 1.5 Large"),
         ("WRITER_API_KEY",         "writer/palmyra-x-004",                                           "writer-palmyra",     "Writer Palmyra X 004"),
@@ -510,7 +441,6 @@ def build_workers(mode: str = "heavy") -> list[dict]:
         })
 
     return workers
-
 
 # =====================================================================
 # ORCHESTRATION
@@ -600,7 +530,6 @@ GOREVIN:
     )
     return final
 
-
 def main():
     args = list(sys.argv[1:])
     mode = "heavy"
@@ -633,7 +562,6 @@ def main():
     print(f"FINAL CIKTI (Lider Sentezi — Mode: {mode.upper()})")
     print("=" * 72)
     print(result)
-
 
 if __name__ == "__main__":
     main()
