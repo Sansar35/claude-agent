@@ -1,0 +1,11 @@
+# .env BOS SABLON olarak commit edilir (key icermez)
+# Gercek key'ler .env.local'da → ASLA git'e gitmez:
+.env.local
+.env.*.local
+*.env.private
+
+__pycache__/
+*.pyc
+.venv/
+output/
+runs/
