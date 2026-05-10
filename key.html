@@ -55,11 +55,25 @@
   .card:hover{border-color:#00ff88;background:#1c2128;transform:translateY(-2px);box-shadow:0 4px 14px #00ff8822}
   .name{color:#f0f6fc;font-weight:700;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .name.star::before{content:"★ ";color:#ffd700}
-  .env-pill{background:#0d1117;border:1px solid #30363d;border-radius:5px;padding:5px 9px;font-family:Consolas,monospace;font-size:11px;color:#7ee787;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:2px}
-  .env-pill code{flex:1;background:transparent;color:#7ee787;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .env-copy{background:#21262d;color:#7ee787;border:1px solid #30363d;border-radius:4px;padding:3px 8px;font-size:10px;cursor:pointer;font-weight:700;letter-spacing:.5px;transition:all .12s;flex-shrink:0}
+  .env-row{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+  .env-label{font-family:Consolas,monospace;font-size:10.5px;color:#7ee787;letter-spacing:.3px}
+  .env-input-wrap{display:flex;gap:5px;align-items:stretch}
+  .env-input{flex:1;background:#0d1117;border:1px solid #30363d;border-radius:5px;padding:7px 10px;font-family:Consolas,monospace;font-size:11.5px;color:#f0f6fc;outline:none;transition:border-color .15s}
+  .env-input:focus{border-color:#00ff88;background:#0a0e14}
+  .env-input.filled{border-color:#3fb95066;background:#0d2218}
+  .env-copy{background:#21262d;color:#7ee787;border:1px solid #30363d;border-radius:4px;padding:5px 9px;font-size:10px;cursor:pointer;font-weight:700;letter-spacing:.5px;transition:all .12s;flex-shrink:0;white-space:nowrap}
   .env-copy:hover{background:#30363d;color:#fff}
   .env-copy.ok{background:#3fb950;color:#0a0e14;border-color:#3fb950}
+
+  /* Action bar (alt kisimda yuzen butonlar) */
+  .action-bar{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:100;align-items:flex-end}
+  .action-btn{background:#00ff88;color:#0a0e14;border:none;padding:14px 20px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 6px 20px rgba(0,255,136,.35);transition:all .18s;letter-spacing:.4px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+  .action-btn:hover{transform:translateY(-3px);box-shadow:0 9px 25px rgba(0,255,136,.55)}
+  .action-btn.fs{background:#58a6ff;color:#0a0e14;box-shadow:0 6px 20px rgba(88,166,255,.35)}
+  .action-btn.fs:hover{box-shadow:0 9px 25px rgba(88,166,255,.55)}
+  .action-btn.count{background:#fd7e14;box-shadow:0 6px 20px rgba(253,126,20,.35)}
+  .action-btn.ok{background:#3fb950 !important}
+  .action-btn small{display:block;font-size:10px;font-weight:600;opacity:.85;margin-top:1px;text-transform:none;letter-spacing:0}
   .desc{color:#8b949e;font-size:12px;flex:1;margin:1px 0 4px}
   .badge{display:inline-block;background:#1f6feb22;color:#58a6ff;font-size:9.5px;padding:2px 7px;border-radius:99px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;width:fit-content}
   .badge.free{background:#2ea04322;color:#3fb950}
@@ -189,7 +203,13 @@
     <div class="name star">OpenRouter</div>
     <div class="desc">Tek key ile GPT-5, Gemini 2.5, DeepSeek, Llama 3.3, Qwen, Mistral, Grok 3 — hepsi acilir. En pratik.</div>
     <span class="badge">300+ MODEL</span>
-    <div class="env-pill"><code>OPENROUTER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OPENROUTER_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">OPENROUTER_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="OPENROUTER_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'OPENROUTER_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://openrouter.ai/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -200,49 +220,91 @@
     <div class="name">Groq</div>
     <div class="desc">Llama 3.3 saniyede 800+ token. Cok hizli. Genis bedava katman.</div>
     <span class="badge free">BEDAVA</span>
-    <div class="env-pill"><code>GROQ_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GROQ_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">GROQ_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="GROQ_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'GROQ_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.groq.com/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Google AI Studio</div>
     <div class="desc">Gemini 2.5 Pro + Flash. 1500 istek/gun bedava. Multimodal (resim/video).</div>
     <span class="badge free">1500/GUN</span>
-    <div class="env-pill"><code>GEMINI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GEMINI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">GEMINI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="GEMINI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'GEMINI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Cerebras</div>
     <div class="desc">Llama 3.3 saniyede 2000+ token. Dunyanin en hizli inference'i.</div>
     <span class="badge free">ULTRA HIZLI</span>
-    <div class="env-pill"><code>CEREBRAS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'CEREBRAS_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">CEREBRAS_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="CEREBRAS_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'CEREBRAS_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://cloud.cerebras.ai/platform" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Mistral AI</div>
     <div class="desc">Mistral Large + Codestral. La Plateforme'da deneme krediler.</div>
     <span class="badge free">DENEME</span>
-    <div class="env-pill"><code>MISTRAL_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MISTRAL_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">MISTRAL_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="MISTRAL_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'MISTRAL_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.mistral.ai/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">NVIDIA NIM</div>
     <div class="desc">Nemotron 70B + Llama. Aylik 1000 bedava cagri.</div>
     <span class="badge free">1000/AY</span>
-    <div class="env-pill"><code>NVIDIA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NVIDIA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">NVIDIA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="NVIDIA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'NVIDIA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://build.nvidia.com/explore/discover" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Together AI</div>
     <div class="desc">Llama 3.3 Turbo + 100+ acik model. $1 baslangic kredi.</div>
     <span class="badge free">$1 KREDI</span>
-    <div class="env-pill"><code>TOGETHER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'TOGETHER_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">TOGETHER_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="TOGETHER_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'TOGETHER_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://api.together.ai/settings/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">SambaNova</div>
     <div class="desc">Llama 3.3 70B saniyede 500+ token. RDU mimarisi.</div>
     <span class="badge free">HIZLI LLAMA</span>
-    <div class="env-pill"><code>SAMBANOVA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SAMBANOVA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">SAMBANOVA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="SAMBANOVA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'SAMBANOVA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://cloud.sambanova.ai/apis" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -253,35 +315,65 @@
     <div class="name">DeepSeek</div>
     <div class="desc">DeepSeek V3.2 / R2. Kod kalitesi yuksek, fiyat dusuk. Reasoning icin ideal.</div>
     <span class="badge cheap">UCUZ</span>
-    <div class="env-pill"><code>DEEPSEEK_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DEEPSEEK_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">DEEPSEEK_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="DEEPSEEK_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'DEEPSEEK_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Fireworks AI</div>
     <div class="desc">Llama 3.3 70B production-grade inference. Hizli + ucuz.</div>
     <span class="badge cheap">PRODUCTION</span>
-    <div class="env-pill"><code>FIREWORKS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FIREWORKS_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">FIREWORKS_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="FIREWORKS_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'FIREWORKS_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://fireworks.ai/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">DeepInfra</div>
     <div class="desc">Tum acik kaynak modeller (Llama, Mistral, DeepSeek, Qwen). Pay-per-use.</div>
     <span class="badge cheap">OPEN SOURCE</span>
-    <div class="env-pill"><code>DEEPINFRA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DEEPINFRA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">DEEPINFRA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="DEEPINFRA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'DEEPINFRA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://deepinfra.com/dash/api_keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Cohere</div>
     <div class="desc">Command R+ — RAG / agentic tooling icin optimize. Trial katman var.</div>
     <span class="badge cheap">RAG</span>
-    <div class="env-pill"><code>COHERE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'COHERE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">COHERE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="COHERE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'COHERE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://dashboard.cohere.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Hyperbolic</div>
     <div class="desc">Llama 3.1 70B + FLUX (gorsel). Decentralized GPU.</div>
     <span class="badge cheap">LLAMA+FLUX</span>
-    <div class="env-pill"><code>HYPERBOLIC_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'HYPERBOLIC_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">HYPERBOLIC_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="HYPERBOLIC_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'HYPERBOLIC_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://app.hyperbolic.xyz/settings" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -292,42 +384,78 @@
     <div class="name">OpenAI</div>
     <div class="desc">GPT-5 / o3 direkt. En guclu kapali kaynak modeller.</div>
     <span class="badge premium">GPT-5</span>
-    <div class="env-pill"><code>OPENAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OPENAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">OPENAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="OPENAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'OPENAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">xAI</div>
     <div class="desc">Grok 3 / Grok 3 Mini. X.com gercek-zamanli verisiyle entegre.</div>
     <span class="badge premium">GROK 3</span>
-    <div class="env-pill"><code>XAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'XAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">XAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="XAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'XAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.x.ai" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Writer</div>
     <div class="desc">Palmyra X 004 — kurumsal yazim icin optimize. Marka tonu.</div>
     <span class="badge premium">PALMYRA</span>
-    <div class="env-pill"><code>WRITER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'WRITER_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">WRITER_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="WRITER_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'WRITER_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://app.writer.com/aistudio/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">AI21 Labs</div>
     <div class="desc">Jamba 1.5 Large — Mamba+Transformer hibrit. 256K context.</div>
     <span class="badge premium">JAMBA</span>
-    <div class="env-pill"><code>AI21_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AI21_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">AI21_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="AI21_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'AI21_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://studio.ai21.com/account/api-key" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Aleph Alpha</div>
     <div class="desc">Luminous Supreme — Avrupa GDPR uyumlu, multilingual.</div>
     <span class="badge premium">EU</span>
-    <div class="env-pill"><code>ALEPH_ALPHA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ALEPH_ALPHA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">ALEPH_ALPHA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="ALEPH_ALPHA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'ALEPH_ALPHA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://app.aleph-alpha.com" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Inflection AI</div>
     <div class="desc">Pi 3.0 — empati odakli sohbet, yumusak ton.</div>
     <span class="badge premium">PI 3.0</span>
-    <div class="env-pill"><code>INFLECTION_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'INFLECTION_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">INFLECTION_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="INFLECTION_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'INFLECTION_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://inflection.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -338,49 +466,91 @@
     <div class="name">Azure OpenAI</div>
     <div class="desc">GPT-5/o3 Microsoft Azure altinda. Endpoint + deployment kurma gerek.</div>
     <span class="badge enterprise">MICROSOFT</span>
-    <div class="env-pill"><code>AZURE_OPENAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AZURE_OPENAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">AZURE_OPENAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="AZURE_OPENAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'AZURE_OPENAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://portal.azure.com" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">AWS Bedrock</div>
     <div class="desc">Claude/Llama/Mistral/Cohere/Titan AWS uzerinden. IAM + region.</div>
     <span class="badge enterprise">AWS</span>
-    <div class="env-pill"><code>AWS_BEDROCK_ACCESS_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AWS_BEDROCK_ACCESS_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">AWS_BEDROCK_ACCESS_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="AWS_BEDROCK_ACCESS_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'AWS_BEDROCK_ACCESS_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.aws.amazon.com/bedrock" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">Google Vertex AI</div>
     <div class="desc">Gemini 2.5 + Claude on Vertex + Llama. GCP project + service account.</div>
     <span class="badge enterprise">GCP</span>
-    <div class="env-pill"><code>VERTEX_AI_PROJECT_ID=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VERTEX_AI_PROJECT_ID=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">VERTEX_AI_PROJECT_ID=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="VERTEX_AI_PROJECT_ID" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'VERTEX_AI_PROJECT_ID')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.cloud.google.com/vertex-ai" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">IBM WatsonX</div>
     <div class="desc">Granite 3 + Llama/Mistral. Kurumsal yonetisim, audit log.</div>
     <span class="badge enterprise">IBM</span>
-    <div class="env-pill"><code>WATSONX_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'WATSONX_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">WATSONX_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="WATSONX_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'WATSONX_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.ibm.com/products/watsonx-ai" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">Databricks</div>
     <div class="desc">DBRX + Llama serving endpoints. Workspace + model serving.</div>
     <span class="badge enterprise">DBRX</span>
-    <div class="env-pill"><code>DATABRICKS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DATABRICKS_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">DATABRICKS_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="DATABRICKS_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'DATABRICKS_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://docs.databricks.com/api/workspace" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">Snowflake Cortex</div>
     <div class="desc">SQL'den dogrudan LLM cagri. Veri ambari icinden inference.</div>
     <span class="badge enterprise">SQL+LLM</span>
-    <div class="env-pill"><code>SNOWFLAKE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SNOWFLAKE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">SNOWFLAKE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="SNOWFLAKE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'SNOWFLAKE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://docs.snowflake.com/en/user-guide/snowflake-cortex" target="_blank" rel="noopener">SETUP</a>
   </div>
   <div class="card">
     <div class="name">Vercel AI Gateway</div>
     <div class="desc">Multi-provider proxy. Caching + rate limit + observability.</div>
     <span class="badge enterprise">PROXY</span>
-    <div class="env-pill"><code>VERCEL_AI_GATEWAY_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VERCEL_AI_GATEWAY_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">VERCEL_AI_GATEWAY_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="VERCEL_AI_GATEWAY_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'VERCEL_AI_GATEWAY_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://vercel.com/docs/ai-gateway" target="_blank" rel="noopener">SETUP</a>
   </div>
 </div>
@@ -391,126 +561,234 @@
     <div class="name">Replicate</div>
     <div class="desc">Llama, FLUX, MusicGen, Stable Diffusion. Pay-per-second.</div>
     <span class="badge opensource">LLAMA+FLUX</span>
-    <div class="env-pill"><code>REPLICATE_API_TOKEN=</code><button type="button" class="env-copy" onclick="copyEnv(this,'REPLICATE_API_TOKEN=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">REPLICATE_API_TOKEN=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="REPLICATE_API_TOKEN" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'REPLICATE_API_TOKEN')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">AnyScale</div>
     <div class="desc">Ray uzerinde Llama 3.1 70B/405B + Mixtral. Production-grade.</div>
     <span class="badge opensource">RAY</span>
-    <div class="env-pill"><code>ANYSCALE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ANYSCALE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">ANYSCALE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="ANYSCALE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'ANYSCALE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://app.endpoints.anyscale.com" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Baseten</div>
     <div class="desc">Custom open-source model serving. Truss framework ile deploy.</div>
     <span class="badge opensource">TRUSS</span>
-    <div class="env-pill"><code>BASETEN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BASETEN_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">BASETEN_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="BASETEN_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'BASETEN_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.baseten.co/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">OctoAI</div>
     <div class="desc">Llama 3.1 + Mixtral 8x22B. NVIDIA tarafindan satin alindi.</div>
     <span class="badge opensource">NVIDIA</span>
-    <div class="env-pill"><code>OCTOAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'OCTOAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">OCTOAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="OCTOAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'OCTOAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://octoai.cloud/settings" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Lepton AI</div>
     <div class="desc">Llama 3.3 70B serverless. Hizli soguk-baslatma.</div>
     <span class="badge opensource">SERVERLESS</span>
-    <div class="env-pill"><code>LEPTON_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LEPTON_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">LEPTON_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="LEPTON_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'LEPTON_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.lepton.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">SiliconFlow</div>
     <div class="desc">DeepSeek V3 + Qwen + Llama 405B + Yi. Cin tabanli OS cloud.</div>
     <span class="badge opensource">DSV3+QWEN</span>
-    <div class="env-pill"><code>SILICONFLOW_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SILICONFLOW_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">SILICONFLOW_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="SILICONFLOW_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'SILICONFLOW_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://cloud.siliconflow.cn/account/ak" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Novita AI</div>
     <div class="desc">Llama 3.3 + Qwen + DeepSeek + image gen. Cok ucuz.</div>
     <span class="badge opensource">UCUZ</span>
-    <div class="env-pill"><code>NOVITA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NOVITA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">NOVITA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="NOVITA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'NOVITA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://novita.ai/dashboard/key" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Kluster AI</div>
     <div class="desc">Llama 3.3 70B distributed compute. Ucuz batch.</div>
     <span class="badge opensource">DISTRIBUTED</span>
-    <div class="env-pill"><code>KLUSTER_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'KLUSTER_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">KLUSTER_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="KLUSTER_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'KLUSTER_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.kluster.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Lambda Labs</div>
     <div class="desc">Llama 3.3 70B FP8 + 405B. GPU bulutu lider.</div>
     <span class="badge opensource">GPU</span>
-    <div class="env-pill"><code>LAMBDALABS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LAMBDALABS_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">LAMBDALABS_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="LAMBDALABS_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'LAMBDALABS_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://cloud.lambdalabs.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Friendli AI</div>
     <div class="desc">Llama 3.3 70B + Mixtral 8x22B. Endpoints API.</div>
     <span class="badge opensource">FRIENDLI</span>
-    <div class="env-pill"><code>FRIENDLI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FRIENDLI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">FRIENDLI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="FRIENDLI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'FRIENDLI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://suite.friendli.ai/personal-settings/tokens" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">AIMLAPI</div>
     <div class="desc">200+ model proxy. GPT-4o, Llama, DeepSeek tek endpoint.</div>
     <span class="badge opensource">PROXY 200+</span>
-    <div class="env-pill"><code>AIMLAPI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'AIMLAPI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">AIMLAPI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="AIMLAPI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'AIMLAPI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://aimlapi.com/app/keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">NScale</div>
     <div class="desc">Llama 3.3 70B Avrupa GPU bulutu. Sustainable compute.</div>
     <span class="badge opensource">EU GPU</span>
-    <div class="env-pill"><code>NSCALE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NSCALE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">NSCALE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="NSCALE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'NSCALE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://nscale.ai/dashboard" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">NetMind</div>
     <div class="desc">Llama 3.3 70B decentralized GPU network.</div>
     <span class="badge opensource">DECENTRAL</span>
-    <div class="env-pill"><code>NETMIND_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NETMIND_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">NETMIND_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="NETMIND_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'NETMIND_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.netmind.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Featherless</div>
     <div class="desc">HuggingFace'deki HER modeli sunar. Subscription model.</div>
     <span class="badge opensource">ANY HF</span>
-    <div class="env-pill"><code>FEATHERLESS_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'FEATHERLESS_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">FEATHERLESS_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="FEATHERLESS_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'FEATHERLESS_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://featherless.ai/account" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Targon</div>
     <div class="desc">Llama 3.3 70B Bittensor uzerinde merkezsiz inference.</div>
     <span class="badge opensource">BITTENSOR</span>
-    <div class="env-pill"><code>TARGON_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'TARGON_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">TARGON_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="TARGON_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'TARGON_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://targon.com/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Latitude AI</div>
     <div class="desc">Open-source LLM hosting + prompt engineering platformu.</div>
     <span class="badge opensource">PROMPT</span>
-    <div class="env-pill"><code>LATITUDE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'LATITUDE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">LATITUDE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="LATITUDE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'LATITUDE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://latitude.so/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Inference.net</div>
     <div class="desc">Llama 3.1 70B serverless OpenAI-compat endpoint.</div>
     <span class="badge opensource">SERVERLESS</span>
-    <div class="env-pill"><code>INFERENCE_NET_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'INFERENCE_NET_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">INFERENCE_NET_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="INFERENCE_NET_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'INFERENCE_NET_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://inference.net/" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">GooseAI</div>
     <div class="desc">GPT-NeoX, Fairseq open model API. NLP focus.</div>
     <span class="badge opensource">NLP</span>
-    <div class="env-pill"><code>GOOSEAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'GOOSEAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">GOOSEAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="GOOSEAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'GOOSEAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://goose.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -521,77 +799,143 @@
     <div class="name">Zhipu AI</div>
     <div class="desc">GLM-4 Plus / Air / Flash. Akademik kokenli, Tsinghua.</div>
     <span class="badge china">GLM-4</span>
-    <div class="env-pill"><code>ZHIPU_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'ZHIPU_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">ZHIPU_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="ZHIPU_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'ZHIPU_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://open.bigmodel.cn/usercenter/apikeys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Moonshot (Kimi)</div>
     <div class="desc">Kimi K2 / v1 — 128K/32K context. Uzun belge analiz.</div>
     <span class="badge china">KIMI</span>
-    <div class="env-pill"><code>MOONSHOT_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MOONSHOT_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">MOONSHOT_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="MOONSHOT_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'MOONSHOT_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.moonshot.cn/console/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Yi (01.AI)</div>
     <div class="desc">Yi-Large / Yi-Lightning. Kai-Fu Lee'nin sirketi.</div>
     <span class="badge china">YI</span>
-    <div class="env-pill"><code>YI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'YI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">YI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="YI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'YI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.lingyiwanwu.com/apikeys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Baichuan</div>
     <div class="desc">Baichuan 4 — multilingual cinli model.</div>
     <span class="badge china">BAICHUAN</span>
-    <div class="env-pill"><code>BAICHUAN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAICHUAN_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">BAICHUAN_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="BAICHUAN_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'BAICHUAN_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.baichuan-ai.com/console/apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Alibaba Qwen</div>
     <div class="desc">Qwen-Max / Plus / Turbo. Dashscope (Aliyun) endpoint.</div>
     <span class="badge china">QWEN</span>
-    <div class="env-pill"><code>DASHSCOPE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'DASHSCOPE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">DASHSCOPE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="DASHSCOPE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'DASHSCOPE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://dashscope.console.aliyun.com/apiKey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Baidu ERNIE</div>
     <div class="desc">Wenxin Yiyan (ERNIE 4.0). Baidu Qianfan platform.</div>
     <span class="badge china">ERNIE</span>
-    <div class="env-pill"><code>BAIDU_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAIDU_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">BAIDU_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="BAIDU_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'BAIDU_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.bce.baidu.com/qianfan" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">SenseNova</div>
     <div class="desc">SenseTime'in LLM platformu. Vision + text.</div>
     <span class="badge china">SENSETIME</span>
-    <div class="env-pill"><code>SENSENOVA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SENSENOVA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">SENSENOVA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="SENSENOVA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'SENSENOVA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.sensenova.cn/apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">MiniMax</div>
     <div class="desc">abab6.5 — uzun context, role-play, multimodal.</div>
     <span class="badge china">ABAB6.5</span>
-    <div class="env-pill"><code>MINIMAX_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'MINIMAX_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">MINIMAX_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="MINIMAX_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'MINIMAX_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://platform.minimaxi.com/user-center/basic-information/interface-key" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">iFlytek Spark</div>
     <div class="desc">Spark 4.0 Ultra — sesli + cok dilli. Egitim odakli.</div>
     <span class="badge china">SPARK 4.0</span>
-    <div class="env-pill"><code>SPARK_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'SPARK_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">SPARK_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="SPARK_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'SPARK_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.xfyun.cn/services/cbm" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Volcengine (Doubao)</div>
     <div class="desc">ByteDance Doubao Pro 256K / Lite. Cok ucuz, hizli.</div>
     <span class="badge china">DOUBAO</span>
-    <div class="env-pill"><code>VOLCENGINE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VOLCENGINE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">VOLCENGINE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="VOLCENGINE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'VOLCENGINE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.volcengine.com/ark" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Tencent Hunyuan</div>
     <div class="desc">Hunyuan Pro — Tencent ekosistem icin optimize.</div>
     <span class="badge china">HUNYUAN</span>
-    <div class="env-pill"><code>HUNYUAN_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'HUNYUAN_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">HUNYUAN_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="HUNYUAN_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'HUNYUAN_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://console.cloud.tencent.com/hunyuan/api-key" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -602,35 +946,65 @@
     <div class="name">Voyage AI</div>
     <div class="desc">En kaliteli embeddings + reranker. RAG icin Anthropic'in tavsiyesi.</div>
     <span class="badge niche">EMBEDDING</span>
-    <div class="env-pill"><code>VOYAGE_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'VOYAGE_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">VOYAGE_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="VOYAGE_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'VOYAGE_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://dash.voyageai.com/api-keys" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Jina AI</div>
     <div class="desc">Embeddings + reranker + reader. Multilingual + multimodal.</div>
     <span class="badge niche">EMBED+READ</span>
-    <div class="env-pill"><code>JINA_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'JINA_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">JINA_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="JINA_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'JINA_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://jina.ai/?sui=apikey" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">BAAI</div>
     <div class="desc">BGE embeddings (acik kaynak lider). MTEB benchmark zirvesi.</div>
     <span class="badge niche">BGE</span>
-    <div class="env-pill"><code>BAAI_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'BAAI_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">BAAI_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="BAAI_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'BAAI_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://www.baai.ac.cn/english.html" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">NLPCloud</div>
     <div class="desc">NER, sentiment, summarization, translate. Klasik NLP.</div>
     <span class="badge niche">NLP</span>
-    <div class="env-pill"><code>NLPCLOUD_API_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'NLPCLOUD_API_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">NLPCLOUD_API_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="NLPCLOUD_API_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'NLPCLOUD_API_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://nlpcloud.com/home/token" target="_blank" rel="noopener">KEY AL</a>
   </div>
   <div class="card">
     <div class="name">Character.AI</div>
     <div class="desc">Persona-bazli sohbet. Karakter rolleri icin optimize.</div>
     <span class="badge niche">PERSONA</span>
-    <div class="env-pill"><code>CHARACTER_AI_KEY=</code><button type="button" class="env-copy" onclick="copyEnv(this,'CHARACTER_AI_KEY=')">KOPYALA</button></div>
+    <div class="env-row">
+      <div class="env-label">CHARACTER_AI_KEY=</div>
+      <div class="env-input-wrap">
+        <input type="password" class="env-input" data-env="CHARACTER_AI_KEY" placeholder="key buraya yapistir..." oninput="markFilled(this)">
+        <button type="button" class="env-copy" onclick="copyFull(this,'CHARACTER_AI_KEY')">SATIR KOPYALA</button>
+      </div>
+    </div>
     <a class="btn" href="https://character.ai/" target="_blank" rel="noopener">KEY AL</a>
   </div>
 </div>
@@ -684,6 +1058,20 @@ function copyEnv(btn, text){
   });
 }
 </script>
+
+<div class="action-bar">
+  <button type="button" class="action-btn count" id="countBtn">
+    <span id="filledCount">0</span> KEY DOLDURULDU
+  </button>
+  <button type="button" class="action-btn fs" onclick="saveDirectToFile()" title="Chrome/Edge sadece">
+    💾 DOSYAYA YAZ
+    <small>Chrome/Edge: .env.local'i sec, key'leri ekle</small>
+  </button>
+  <button type="button" class="action-btn" onclick="downloadEnv()">
+    ⬇️ .env OLARAK INDIR
+    <small>Tum tarayicilarda calisir</small>
+  </button>
+</div>
 
 </body>
 </html>
