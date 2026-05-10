@@ -115,16 +115,16 @@
     <div class="cmd-code" id="cmdClone">git clone https://github.com/Sansar35/claude-agent.git</div>
     <button type="button" class="copy-btn" onclick="copyIt('cmdClone', this)">KLONLA</button>
   </div>
-  <div class="cmd-desc">Yeni makinede sifirdan kurmak icin: <code>git clone</code> → <code>copy .env .env.local</code> → key'leri yapistir → <code>python test.py</code></div>
+  <div class="cmd-desc">Yeni makinede sifirdan kurmak icin: <code>git clone</code> → <code>notepad .env</code> → key'leri yapistir → <code>python test.py</code></div>
 </div>
 
 <div class="cmd-box">
   <div class="cmd-title">📋 1) .env DOSYASINI AC (KEY YAPISTIRMA)</div>
   <div class="cmd-row">
-    <div class="cmd-code" id="cmd1">notepad %USERPROFILE%\.claude\repos\team\.env.local</div>
+    <div class="cmd-code" id="cmd1">notepad %USERPROFILE%\.claude\repos\team\.env</div>
     <button type="button" class="copy-btn" onclick="copyIt('cmd1', this)">KOPYALA</button>
   </div>
-  <div class="cmd-desc"><strong>.env.local</strong> dosyasi acilir (gercek key'lerin orada saklanir, .gitignore koruyor). Karttan kopyaladigin <code>KEY=</code> satirini yapistir, sonuna anahtarini ekle, Ctrl+S.</div>
+  <div class="cmd-desc"><strong>.env</strong> dosyasi acilir (gercek key'lerin burada saklanir, .gitignore koruyor). Karttan kopyaladigin <code>KEY=</code> satirini yapistir, sonuna anahtarini ekle, Ctrl+S.</div>
 </div>
 
 <div class="cmd-box">
@@ -174,7 +174,7 @@
   <div class="section-num s2">2</div>
   <div class="section-info">
     <h2 class="t2">🔑 KEY MERKEZI</h2>
-    <p>Karttan <strong>KEY AL</strong> → siteden anahtari kopyala → karttaki <strong>KOPYALA</strong>'dan ENV satirini al → CMD 1 ile .env.local'a yapistir.</p>
+    <p>Karttan <strong>KEY AL</strong> → siteden anahtari kopyala → CMD 1 ile <code>.env</code> dosyasini ac → ilgili satira yapistir.</p>
   </div>
 </div>
 
