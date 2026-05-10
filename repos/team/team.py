@@ -111,6 +111,72 @@ def _vprint(line: str):
 
 
 # =====================================================================
+# DINAMIK MODEL DISCOVERY — Provider'in canli model listesini cek
+# =====================================================================
+# Her dolu key icin /v1/models endpoint cagrilir, donen TUM modeller worker olur.
+# OpenRouter girersen 300+ ajan, OpenAI 50+, Groq 15+ ... SINIR YOK.
+
+_MODEL_CACHE: dict[str, list[str]] = {}  # {env_name: [model_ids]}
+
+# Provider -> (models_url, litellm_prefix, auth_method)
+DISCOVERY_ENDPOINTS = {
+    "OPENROUTER_API_KEY": ("https://openrouter.ai/api/v1/models",          "openrouter/",     "bearer"),
+    "OPENAI_API_KEY":     ("https://api.openai.com/v1/models",             "openai/",         "bearer"),
+    "GROQ_API_KEY":       ("https://api.groq.com/openai/v1/models",        "groq/",           "bearer"),
+    "MISTRAL_API_KEY":    ("https://api.mistral.ai/v1/models",             "mistral/",        "bearer"),
+    "DEEPSEEK_API_KEY":   ("https://api.deepseek.com/v1/models",           "deepseek/",       "bearer"),
+    "TOGETHER_API_KEY":   ("https://api.together.xyz/v1/models",           "together_ai/",    "bearer"),
+    "FIREWORKS_API_KEY":  ("https://api.fireworks.ai/inference/v1/models", "fireworks_ai/",   "bearer"),
+    "CEREBRAS_API_KEY":   ("https://api.cerebras.ai/v1/models",            "cerebras/",       "bearer"),
+    "XAI_API_KEY":        ("https://api.x.ai/v1/models",                   "xai/",            "bearer"),
+    "HYPERBOLIC_API_KEY": ("https://api.hyperbolic.xyz/v1/models",         "hyperbolic/",     "bearer"),
+    "SAMBANOVA_API_KEY":  ("https://api.sambanova.ai/v1/models",           "sambanova/",      "bearer"),
+    "DEEPINFRA_API_KEY":  ("https://api.deepinfra.com/v1/openai/models",   "deepinfra/",      "bearer"),
+    "NVIDIA_API_KEY":     ("https://integrate.api.nvidia.com/v1/models",   "nvidia_nim/",     "bearer"),
+    "GEMINI_API_KEY":     ("https://generativelanguage.googleapis.com/v1beta/models", "gemini/", "google_query"),
+    "COHERE_API_KEY":     ("https://api.cohere.com/v1/models",             "cohere/",         "bearer"),
+}
+
+def _discover_models(env_name: str, api_key: str) -> list[str]:
+    """Provider'dan canli model listesini cek. Cache'lenir, ilk cagri ~1-3 sn."""
+    if env_name not in DISCOVERY_ENDPOINTS:
+        return []
+    cache_key = f"{env_name}:{api_key[:12]}"
+    if cache_key in _MODEL_CACHE:
+        return _MODEL_CACHE[cache_key]
+
+    url, prefix, auth = DISCOVERY_ENDPOINTS[env_name]
+    try:
+        import urllib.request as _ur, json as _json
+        if auth == "google_query":
+            req = _ur.Request(f"{url}?key={api_key}")
+        else:
+            req = _ur.Request(url, headers={"Authorization": f"Bearer {api_key}"})
+        with _ur.urlopen(req, timeout=8) as resp:
+            data = _json.loads(resp.read().decode("utf-8"))
+        # Provider response yapisi: {"data": [{"id": "..."}]}  (OpenAI standard)
+        # veya {"models": [{"name": "..."}]}  (Google Gemini)
+        items = data.get("data") or data.get("models") or []
+        models = []
+        for m in items:
+            mid = m.get("id") or m.get("name") or ""
+            if not mid:
+                continue
+            # Gemini "models/gemini-2.5-pro" formatinda → "gemini-2.5-pro" yap
+            if mid.startswith("models/"):
+                mid = mid.split("/", 1)[1]
+            # Sadece chat-capable modelleri al (embedding/audio/image hic ekleme)
+            if any(skip in mid.lower() for skip in ("embed", "tts", "whisper", "dall-e", "moderation", "audio")):
+                continue
+            models.append(prefix + mid)
+        _MODEL_CACHE[cache_key] = models
+        return models
+    except Exception as e:
+        _log_event({"ts": time.time(), "phase": "discover_failed", "provider": env_name, "error": str(e)[:120]})
+        return []
+
+
+# =====================================================================
 # DINAMIK ROUTING — Hata alan ajanlari oturum boyunca skip et
 # =====================================================================
 _FAILED_WORKERS: dict[str, str] = {}  # {worker_name: error_msg}
@@ -444,7 +510,7 @@ def build_workers(mode: str = "heavy") -> list[dict]:
         ("INFLECTION_API_KEY",     "openai/Pi-3.0",                                                  "inflection-pi",      "Inflection Pi 3.0"),
         ("ALEPH_ALPHA_API_KEY",    "openai/luminous-supreme",                                        "aleph-luminous",     "Aleph Alpha Luminous Supreme"),
     ]
-    # Duplicate koruma: ayni (key, model) ikilisini iki kez ekleme
+    # === ADIM A: HARDCODED DIRECTS (yedek liste) ===
     seen = set()
     for env_name, model, name, role in DIRECTS:
         k = _key(env_name)
@@ -459,6 +525,43 @@ def build_workers(mode: str = "heavy") -> list[dict]:
             "system": f"You are {role}. Output concise, code-focused, production-grade.",
             "fn":     lambda p, s, m=model, kk=k: litellm_call(m, p, kk, s),
         })
+
+    # === ADIM B: DINAMIK DISCOVERY — provider'in CANLI model listesini cek ===
+    # Her dolu key icin /v1/models endpoint cagrilir, bulunan TUM modeller eklenir.
+    # OpenRouter -> 300+ model, OpenAI -> 50+, Groq -> 15+ ... SINIR YOK.
+    print("[BUILD] Dinamik model discovery basliyor (her dolu key icin /v1/models cagrisi)...")
+    discovered_count = 0
+    for env_name in DISCOVERY_ENDPOINTS:
+        k = _key(env_name)
+        if not k:
+            continue
+        models = _discover_models(env_name, k)
+        if not models:
+            continue
+        prefix = DISCOVERY_ENDPOINTS[env_name][1]
+        provider_short = prefix.rstrip("/")
+        added_for_this = 0
+        for full_model in models:
+            sig = (k, full_model)
+            if sig in seen:
+                continue
+            seen.add(sig)
+            short_id = full_model.split("/", 1)[1] if "/" in full_model else full_model
+            # Worker adini provider+model olarak isaretle (raporda kolay tanim)
+            wname = f"{provider_short}-{short_id}".replace("/", "-").replace(":", "-")[:64]
+            wrole = f"{provider_short.upper()} {short_id}"
+            workers.append({
+                "name": wname, "role": wrole,
+                "system": f"You are {wrole}. Output concise, code-focused, production-grade.",
+                "fn":     lambda p, s, m=full_model, kk=k: litellm_call(m, p, kk, s),
+            })
+            added_for_this += 1
+            discovered_count += 1
+        if added_for_this:
+            print(f"  [DISCOVER] {env_name:24s} +{added_for_this} ek model ({provider_short})")
+
+    if discovered_count > 0:
+        print(f"[BUILD] Toplam {discovered_count} dinamik model eklendi (hardcoded'a ek olarak).")
 
     return workers
 
