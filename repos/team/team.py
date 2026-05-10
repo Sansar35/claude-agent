@@ -62,6 +62,11 @@ PROVIDER_URLS = {
     "nvidia_nim/":      "https://integrate.api.nvidia.com/v1/chat/completions",
     "deepinfra/":       "https://api.deepinfra.com/v1/openai/chat/completions",
     "openrouter/":      "https://openrouter.ai/api/v1/chat/completions",
+    "anthropic/":       "https://api.anthropic.com/v1/messages",
+    "huggingface/":     "https://api-inference.huggingface.co/models",
+    "perplexity/":      "https://api.perplexity.ai/chat/completions",
+    "cloudflare/":      "https://api.cloudflare.com/client/v4/accounts/<id>/ai/run/<model>",
+    "github/":          "https://models.inference.ai.azure.com/chat/completions",
     "azure/":           "https://<azure-endpoint>/openai/deployments/<model>/chat/completions",
     "bedrock/":         "https://bedrock-runtime.<region>.amazonaws.com/model/<id>/invoke",
     "vertex_ai/":       "https://<region>-aiplatform.googleapis.com/v1/projects/<project>/locations/<region>/publishers",
@@ -358,6 +363,31 @@ def build_workers(mode: str = "heavy") -> list[dict]:
         ("DEEPINFRA_API_KEY",   "deepinfra/meta-llama/Meta-Llama-3.3-70B-Instruct",                  "deepinfra-llama33",  "DeepInfra Llama 3.3 70B"),
         ("DEEPINFRA_API_KEY",   "deepinfra/Qwen/Qwen2.5-72B-Instruct",                               "deepinfra-qwen72",   "DeepInfra Qwen 2.5 72B"),
         ("DEEPINFRA_API_KEY",   "deepinfra/mistralai/Mixtral-8x22B-Instruct-v0.1",                   "deepinfra-mixtral",  "DeepInfra Mixtral 8x22B"),
+
+        # ---------- HuggingFace Inference (3 ajan) ----------
+        ("HUGGINGFACE_API_KEY", "huggingface/meta-llama/Llama-3.3-70B-Instruct",                     "hf-llama33",         "HF Llama 3.3 70B"),
+        ("HUGGINGFACE_API_KEY", "huggingface/Qwen/Qwen2.5-72B-Instruct",                             "hf-qwen72",          "HF Qwen 2.5 72B"),
+        ("HUGGINGFACE_API_KEY", "huggingface/deepseek-ai/DeepSeek-V3",                               "hf-dsv3",            "HF DeepSeek V3"),
+
+        # ---------- Perplexity (3 ajan) ----------
+        ("PERPLEXITY_API_KEY",  "perplexity/sonar-pro",                                              "pplx-pro",           "Perplexity Sonar Pro (web)"),
+        ("PERPLEXITY_API_KEY",  "perplexity/sonar",                                                  "pplx-sonar",         "Perplexity Sonar"),
+        ("PERPLEXITY_API_KEY",  "perplexity/sonar-reasoning",                                        "pplx-reason",        "Perplexity Sonar Reasoning"),
+
+        # ---------- Cloudflare Workers AI (3 ajan) ----------
+        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/meta/llama-3.3-70b-instruct",                        "cf-llama33",         "Cloudflare Llama 3.3 70B"),
+        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/mistral/mistral-7b-instruct-v0.2",                   "cf-mistral7b",       "Cloudflare Mistral 7B"),
+        ("CLOUDFLARE_API_KEY",  "cloudflare/@cf/google/gemma-7b-it",                                 "cf-gemma7b",         "Cloudflare Gemma 7B"),
+
+        # ---------- GitHub Models (3 ajan — bedava abonelikle) ----------
+        ("GITHUB_TOKEN",        "github/gpt-4o",                                                     "gh-gpt4o",           "GitHub Models GPT-4o"),
+        ("GITHUB_TOKEN",        "github/Meta-Llama-3.1-405B-Instruct",                               "gh-llama405",        "GitHub Models Llama 3.1 405B"),
+        ("GITHUB_TOKEN",        "github/Mistral-large",                                              "gh-mistral",         "GitHub Models Mistral Large"),
+
+        # ---------- Anthropic Direkt API (Claude Max abonelik varsa GEREKMEZ) ----------
+        ("ANTHROPIC_API_KEY",   "anthropic/claude-opus-4-7",                                         "anth-opus47",        "Anthropic Claude Opus 4.7 (direkt API)"),
+        ("ANTHROPIC_API_KEY",   "anthropic/claude-sonnet-4-6",                                       "anth-sonnet46",      "Anthropic Claude Sonnet 4.6"),
+        ("ANTHROPIC_API_KEY",   "anthropic/claude-haiku-4-5",                                        "anth-haiku45",       "Anthropic Claude Haiku 4.5"),
 
         # ---------- AWS Bedrock (4 ajan) — Claude/Llama/Mistral/Cohere ----------
         ("AWS_BEDROCK_ACCESS_KEY", "bedrock/anthropic.claude-opus-4-7-20251201-v1:0",                "bedrock-opus",       "Bedrock Claude Opus 4.7"),
